@@ -2,7 +2,10 @@ name: Go
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
+    paths-ignore:
+      - '**.md'
+      - '**.yml'
 
 jobs:
 

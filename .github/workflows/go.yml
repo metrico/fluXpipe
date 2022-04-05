@@ -5,6 +5,7 @@ on:
     branches: [ main, master ]
     paths-ignore:
       - '**.md'
+      - '**.flux'
 
 jobs:
 

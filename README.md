@@ -20,10 +20,9 @@ go build -o fluxpipe -ldflags="-s -w" fluxpipe.go
 ### 🐛 Test
 #### CSV
 ```bash
-cat script.flux | fluxpipe
+cat scripts/csv.flux | fluxpipe
 ```
 #### SQL
 ```bash
-echo 'import "sql" sql.from(driverName: "mysql",dataSourceName: "default:password@tcp(127.0.0.1:9004)/system",query: "SELECT database, total_rows FROM tables") |> rename(columns: {database: "_value", total_rows: "_data"})|> keep(columns: ["_value","_data"])' \
- | fluxpipe
+cat scripts/sql.flux | fluxpipe
 ```

@@ -30,11 +30,12 @@ jobs:
     - name: Compile Flux
       run: |
         cd flux
-        make
+        # make
 
     - name: Build Fluxpipe
       run: |
-        cp fluxpipe.go flux/examples/library/
+        cd /home/runner/work/fluxpipe/fluxpipe/
+        cp fluxpipe.go ./flux/examples/library/
         cd flux/examples/library/
-        go build -o fluxpipe -ldflags="-s -w" ./flux/examples/library/fluxpipe.go
+        go build -o /home/runner/work/fluxpipe/fluxpipe/fluxpipe -ldflags="-s -w" fluxpipe.go
         

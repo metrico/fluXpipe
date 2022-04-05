@@ -44,6 +44,11 @@ jobs:
         ls -alFh fluxpipe
         cp fluxpipe /home/runner/work/fluxpipe/fluxpipe/fluxpipe
         
+    - name: Compress Fluxpipe
+      run: |
+        sudo apt install -y upx
+        upx fluxpipe
+        
     - name: Get Time
       if: github.event_name != 'pull_request'
       id: time

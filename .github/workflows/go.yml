@@ -30,7 +30,7 @@ jobs:
     - name: Compile Flux
       run: |
         cd flux
-        # make
+        make
 
     - name: Build Fluxpipe
       run: |

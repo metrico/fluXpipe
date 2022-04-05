@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/1423657/161866679-e02a438e-2e07-48e4-baf3-6fdbb5187039.png" width=150 />
+<img src="https://user-images.githubusercontent.com/1423657/161867564-4b3fc400-95e5-424c-9210-604d5671a85e.png" width=100 />
 
 # FluxPipe
 Experimental flux pipeline for embedded or external datasources

@@ -21,7 +21,7 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.17
-
+        
     - name: Get Flux
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
@@ -31,11 +31,34 @@ jobs:
       run: |
         cd flux
         make
-
+        
     - name: Build Fluxpipe
       run: |
         cd /home/runner/work/fluxpipe/fluxpipe/
         cp fluxpipe.go ./flux/examples/library/
-        cd flux/examples/library/
-        go build -o /home/runner/work/fluxpipe/fluxpipe/fluxpipe -ldflags="-s -w" fluxpipe.go
+        cd ./flux/examples/library/
+        go build -o fluxpipe -ldflags="-s -w" fluxpipe.go
+        ls -alFh fluxpipe
+        cp fluxpipe /home/runner/work/fluxpipe/fluxpipe/fluxpipe
         
+    - name: Get Time
+      if: github.event_name != 'pull_request'
+      id: time
+      uses: nanzm/get-time-action@v1.1
+      with:
+        timeZone: 0
+        format: 'YYYYMMDDHHmmss'
+        
+    - name: Upload release
+      if: github.event_name != 'pull_request'
+      uses: boxpositron/upload-multiple-releases@1.0.7
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_config: |
+            fluxpipe
+        tag_name: v${{ steps.time.outputs.time }}
+        release_name: fluxpipe_v${{ steps.time.outputs.time }}
+        draft: false
+        prerelease: false
+        overwrite: true   

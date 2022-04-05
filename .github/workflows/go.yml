@@ -27,11 +27,14 @@ jobs:
       with:
         owner: 'influxdata'
         repository: 'flux'
-    - name: Compile Flux & Fluxpipe
+    - name: Compile Flux
       run: |
-        cp fluxpipe.go flux/examples/library/
         cd flux
         make
 
-    - name: Build
-      run: go build -o fluxpipe -ldflags="-s -w" ./flux/examples/library/fluxpipe.go
+    - name: Build Fluxpipe
+      run: |
+        cp fluxpipe.go flux/examples/library/
+        cd flux/examples/library/
+        go build -o fluxpipe -ldflags="-s -w" ./flux/examples/library/fluxpipe.go
+        

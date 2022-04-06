@@ -24,13 +24,22 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.17
+    
+    - name: Cache Flux Build
+      id: cache-flux
+      uses: actions/cache@v3
+      with:
+        path: flux
+        key: ${{ runner.os }}-flux
         
     - name: Get Flux
+      if: steps.cache-flux.outputs.cache-hit != 'true'
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
         owner: 'influxdata'
         repository: 'flux'
     - name: Compile Flux
+      if: steps.cache-flux.outputs.cache-hit != 'true'
       run: |
         cd flux
         make

@@ -8,6 +8,7 @@ import (
 	"strings"
 	"bytes"
 	"time"
+	"flag"
 
 	"github.com/influxdata/flux"
 	"github.com/influxdata/flux/dependency"
@@ -38,9 +39,12 @@ func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
 
 func main() {
 
+	url := flag.String("url", "", "ClickHouse MySQL URL")
+	flag.Parse()
+
 	scanner := bufio.NewScanner((os.Stdin))
 	inputString := ""
-	
+
 	for scanner.Scan() {
 	        inputString = inputString + "\n" + scanner.Text()
 	}
@@ -48,9 +52,16 @@ func main() {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
 
+	if len(*url) > 1 {
+		orig := `"clickhouse"`
+		repl := fmt.Sprintf(`"mysql", dataSourceName: "%s"`, *url)
+		inputString = strings.ReplaceAll(inputString, orig, repl)
+	}
+
 	q, close, err := runQuery(context.Background(), inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
+		fmt.Println("%s", inputString)
 	}
 	defer close()
 

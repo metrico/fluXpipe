@@ -41,3 +41,10 @@ cat scripts/csv.flux | ./fluxpipe
 ```bash
 cat scripts/sql.flux | ./fluxpipe
 ```
+
+
+## Status
+- [x] stdin pipeline
+- [ ] http/s api
+- [ ] output templates
+- [ ] shared dict

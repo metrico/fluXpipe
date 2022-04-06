@@ -39,7 +39,7 @@ func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
 
 func main() {
 
-	url := flag.String("url", "", "ClickHouse MySQL URL")
+	url := flag.String("url", "", "ClickHouse MYSQL API URL")
 	flag.Parse()
 
 	scanner := bufio.NewScanner((os.Stdin))

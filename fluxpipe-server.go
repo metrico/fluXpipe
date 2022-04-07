@@ -83,7 +83,7 @@ func exec(inputString string) string {
 func main() {
 
 	url  := flag.String("url", "", "ClickHouse MYSQL API URL")
-	port := flag.String("port", "8888", "API port")
+	port := flag.String("port", "8086", "API port")
 	stdin  := flag.Bool("stdin", false, "STDIN mode")
 	cors  := flag.Bool("cors", true, "API cors mode")
 	flag.Parse()

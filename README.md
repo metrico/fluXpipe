@@ -89,3 +89,7 @@ cat scripts/sql.flux | ./fluxpipe -stdin
 - [ ] output templates
 - [ ] shared secrets
 - [ ] bucket emulation
+
+
+#### Acknowledgements
+Project is not affiliated or endorsed by Influxdata or Grafana Labs. All rights belong to their respective owners.

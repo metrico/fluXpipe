@@ -1,6 +1,6 @@
 <img src="https://user-images.githubusercontent.com/1423657/161867564-4b3fc400-95e5-424c-9210-604d5671a85e.png" width=100 />
 
-# FluxPipe
+# <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" width=25 /> FluxPipe
 Experimental [flux](https://github.com/influxdata/flux) API pipeline for embedded datasources
 
 ### Instructions
@@ -89,6 +89,8 @@ cat scripts/sql.flux | ./fluxpipe -stdin
 - [ ] output templates
 - [ ] shared secrets
 - [ ] bucket emulation
+
+--------
 
 
 #### Acknowledgements

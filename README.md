@@ -24,11 +24,12 @@ go build -o fluxpipe-server -ldflags="-s -w" fluxpipe-server.go
 
 ### 🐛 Examples
 #### HTTP API
-##### Generate
+##### Generate CSV
 ```bash
 ./fluxpipe-server -port 8086
 
 curl -XPOST localhost:8086/api/v2/query -sS \
+  -H 'Accept:application/csv' \
   -H 'Content-type:application/vnd.flux' \
   -d 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 3, fn: (n) => n)'
 ```
@@ -42,7 +43,7 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ,,0,2022-04-01T00:01:12Z,3
 ```
 #### STDIN CMD
-##### Generate
+##### Generate CSV
 ```bash
 echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' \
 | ./fluxpipe -stdin

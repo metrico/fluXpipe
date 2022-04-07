@@ -46,7 +46,7 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ##### Grafana Flux
 ```
 import g "generate" 
-g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n )
+g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n * 100 )
 ```
 ![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
 

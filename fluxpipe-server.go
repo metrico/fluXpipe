@@ -146,6 +146,7 @@ func main() {
 	} else {
 
 		e := echo.New()
+		e.HideBanner = true
 		e.Use(middleware.Logger())
 		e.Use(middleware.Recover())
 
@@ -166,7 +167,7 @@ func main() {
 		e.POST("/api/v2/query", postQuery)
 		e.POST("/query", postQuery)
 
-		fmt.Println("Starting API...")
+		fmt.Println("|> FluxPIPE |>")
 		e.Logger.Fatal(e.Start(":"+*port))
 	}
 }

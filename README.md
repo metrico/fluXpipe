@@ -26,8 +26,11 @@ go build -o fluxpipe-server -ldflags="-s -w" fluxpipe-server.go
 #### HTTP API
 ##### Generate
 ```bash
-./fluxpipe-server -port 8888 && \
-curl -i -X POST localhost:8888/query --data-binary "@scripts/generate.flux"
+./fluxpipe-server -port 8086
+
+curl -XPOST localhost:8086/api/v2/query -sS \
+  -H 'Content-type:application/vnd.flux' \
+  -d 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 3, fn: (n) => n)'
 ```
 ```flux
 #datatype,string,long,dateTime:RFC3339,long
@@ -35,10 +38,8 @@ curl -i -X POST localhost:8888/query --data-binary "@scripts/generate.flux"
 #default,_result,,,
 ,result,table,_time,_value
 ,,0,2022-04-01T00:00:00Z,1
-,,0,2022-04-01T00:00:36Z,1
-,,0,2022-04-01T00:01:12Z,1
-,,0,2022-04-01T00:01:48Z,1
-,,0,2022-04-01T00:02:24Z,1
+,,0,2022-04-01T00:00:36Z,2
+,,0,2022-04-01T00:01:12Z,3
 ```
 #### STDIN CMD
 ##### Generate

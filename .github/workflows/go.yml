@@ -49,19 +49,14 @@ jobs:
         
     - name: Build Fluxpipe
       run: |
-        cd /home/runner/work/fluxpipe/fluxpipe/
-        cp fluxpipe.go ./flux/examples/library/
-        cd ./flux/examples/library/
-        go build -o fluxpipe -ldflags="-s -w" fluxpipe.go
-        ls -alFh fluxpipe
-        cp fluxpipe /home/runner/work/fluxpipe/fluxpipe/fluxpipe
+        sed -i 's|/usr/src/|/home/runner/work/fluxpipe/fluxpipe/|g' flux.pc
+        ./build.sh
         
     - name: Compress Fluxpipe
       run: |
-        sudo apt install -y upx
-        upx fluxpipe
+        upx fluxpipe fluxpipe-server
         
-    - name: Get Time
+    - name: Get Timestamp
       if: github.event_name != 'pull_request'
       id: time
       uses: nanzm/get-time-action@v1.1
@@ -77,6 +72,7 @@ jobs:
       with:
         release_config: |
             fluxpipe
+            fluxpipe-server
         tag_name: v${{ steps.time.outputs.time }}
         release_name: fluxpipe_v${{ steps.time.outputs.time }}
         draft: false

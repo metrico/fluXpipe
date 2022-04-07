@@ -43,12 +43,13 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ,,0,2022-04-01T00:01:12Z,3
 ```
 
-##### Grafana Explore
-![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
+##### Grafana Flux
 ```
 import g "generate" 
 g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n )
 ```
+![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
+
 
 
 #### STDIN CMD
@@ -83,7 +84,8 @@ cat scripts/sql.flux | ./fluxpipe -stdin
 - [x] stdin pipeline
 - [x] http api
   - [x] plaintext
-  - [ ] json support
+  - [x] json support
   - [ ] api doc
 - [ ] output templates
 - [ ] shared secrets
+- [ ] bucket emulation

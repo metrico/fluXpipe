@@ -42,6 +42,10 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ,,0,2022-04-01T00:00:36Z,2
 ,,0,2022-04-01T00:01:12Z,3
 ```
+
+![image](https://user-images.githubusercontent.com/1423657/162273860-a96b69e5-93d6-4aac-9c1e-036639298097.png)
+
+
 #### STDIN CMD
 ##### Generate CSV
 ```bash
@@ -67,6 +71,7 @@ cat scripts/csv.flux | ./fluxpipe -stdin
 ```bash
 cat scripts/sql.flux | ./fluxpipe -stdin
 ```
+
 
 
 ## Status

@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"time"
 	"flag"
+	"encoding/json"
 
 	"github.com/influxdata/flux"
 	"github.com/influxdata/flux/dependency"
@@ -28,7 +29,7 @@ import (
 var APPNAME = "fluxpipe"
 
 func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
-	
+
 	program, err := lang.Compile(script, runtime.Default, time.Unix(0, 0))
 	if err != nil {
 		return nil, nil, err
@@ -43,17 +44,43 @@ func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
 }
 
 func postQuery(c echo.Context) error {
-	
+
+	content := c.Request().Header.Get("Content-Type")
 	s, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
 		return err
 	}
-	res := exec(string(s))
-	return c.String(http.StatusOK, res)
+
+	if strings.Contains(content, "json") {
+		json_map := make(map[string]interface{})
+		//err := json.NewDecoder(c.Request().Body).Decode(&json_map)
+		err := json.Unmarshal(s, &json_map)
+		if err != nil {
+			return err
+		} else {
+			q := json_map["query"]
+			query := fmt.Sprintf("%v", q)
+
+			if query == "buckets()" || query == "" {
+				// fake query
+				buckets := "{}"
+				return c.String(http.StatusOK, buckets)
+			} else {
+				// real query
+				res := exec(query)
+				return c.String(http.StatusOK, res)
+			}
+		}
+
+	} else {
+
+		res := exec(string(s))
+		return c.String(http.StatusOK, res)
+	}
 }
 
 func exec(inputString string) string {
-	
+
 	q, close, err := runQuery(context.Background(), inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
@@ -76,7 +103,6 @@ func exec(inputString string) string {
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
 	}
-	
 	return buf.String()
 }
 
@@ -124,6 +150,9 @@ func main() {
 
 		e.GET("/", func(c echo.Context) error {
 			return c.String(http.StatusOK, "F-L-U-X-P-I-P-E")
+		})
+		e.GET("/ping", func(c echo.Context) error {
+			return c.String(204, "OK")
 		})
 
 		e.POST("/api/v2/query", postQuery)

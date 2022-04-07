@@ -42,6 +42,44 @@ func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
 	return q, deps.Finish, nil
 }
 
+func postQuery(c echo.Context) error {
+	
+	s, err := ioutil.ReadAll(c.Request().Body)
+	if err != nil {
+		return err
+	}
+	res := exec(string(s))
+	return c.String(http.StatusOK, res)
+}
+
+func exec(inputString string) string {
+	
+	q, close, err := runQuery(context.Background(), inputString)
+	if err != nil {
+		fmt.Println("unexpected error while creating query: %s", err)
+		fmt.Println("%s", inputString)
+	}
+	defer close()
+
+	results := flux.NewResultIteratorFromQuery(q)
+	defer results.Release()
+
+	buf := bytes.NewBuffer(nil)
+	encoder := csv.NewMultiResultEncoder(csv.DefaultEncoderConfig())
+
+	if _, err := encoder.Encode(buf, results); err != nil {
+		panic(err)
+	}
+
+	q.Done()
+
+	if q.Err() != nil {
+		fmt.Println("unexpected error from query execution: %s", q.Err())
+	}
+	
+	return buf.String()
+}
+
 func main() {
 
 	url  := flag.String("url", "", "ClickHouse MYSQL API URL")
@@ -88,44 +126,11 @@ func main() {
 			return c.String(http.StatusOK, "F-L-U-X-P-I-P-E")
 		})
 
-		e.POST("/query", func(c echo.Context) error {
-			s, err := ioutil.ReadAll(c.Request().Body)
-			if err != nil {
-				return err
-			}
-			res := exec(string(s))
-			return c.String(http.StatusOK, res)
-		})
+		e.POST("/api/v2/query", postQuery)
+		e.POST("/query", postQuery)
 
 		fmt.Println("Starting API...")
 		e.Logger.Fatal(e.Start(":"+*port))
 	}
 }
 
-func exec(inputString string) string {
-	
-	q, close, err := runQuery(context.Background(), inputString)
-	if err != nil {
-		fmt.Println("unexpected error while creating query: %s", err)
-		fmt.Println("%s", inputString)
-	}
-	defer close()
-
-	results := flux.NewResultIteratorFromQuery(q)
-	defer results.Release()
-
-	buf := bytes.NewBuffer(nil)
-	encoder := csv.NewMultiResultEncoder(csv.DefaultEncoderConfig())
-
-	if _, err := encoder.Encode(buf, results); err != nil {
-		panic(err)
-	}
-
-	q.Done()
-
-	if q.Err() != nil {
-		fmt.Println("unexpected error from query execution: %s", q.Err())
-	}
-	
-	return buf.String()
-}

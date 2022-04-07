@@ -19,7 +19,7 @@ go build -o fluxpipe -ldflags="-s -w" fluxpipe.go
 
 #### 📖 Build Server
 ```bash
-go build -o fluxpipe -ldflags="-s -w" fluxpipe-server.go
+go build -o fluxpipe-server -ldflags="-s -w" fluxpipe-server.go
 ```
 
 ### 🐛 Examples

@@ -1,0 +1,14 @@
+prefix=/usr/src/flux/libflux
+#prefix=flux/libflux
+exec_prefix=${prefix}
+libdir= ${prefix}/target/x86_64-unknown-linux-gnu
+includedir=${prefix}/include
+
+Name: flux
+Version: 1.34.2
+Description: flux
+URL: http://flux.com
+
+#Libs: -L${libdir} -lflux
+Libs: ${prefix}/target/x86_64-unknown-linux-gnu/release/libflux.a -static -L/usr/lib/x86_64-linux-gnu -ldl
+Cflags: -I${includedir}

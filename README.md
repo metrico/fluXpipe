@@ -69,6 +69,9 @@ cat scripts/sql.flux | ./fluxpipe -stdin
 
 ## Status
 - [x] stdin pipeline
-- [x] http query api
+- [x] http api
+  - [x] plaintext
+  - [ ] json support
+  - [ ] api doc
 - [ ] output templates
 - [ ] shared secrets

@@ -23,9 +23,10 @@ go build -o fluxpipe -ldflags="-s -w" fluxpipe-server.go
 ```
 
 ### 🐛 Examples
-#### API
+#### HTTP API
 ##### Generate
 ```
+# ./fluxpipe-server -port 8888 &
 # curl -i -X POST localhost:8888/query --data-binary "@scripts/generate.flux"
 ```
 ```
@@ -39,10 +40,10 @@ go build -o fluxpipe -ldflags="-s -w" fluxpipe-server.go
 ,,0,2022-04-01T00:01:48Z,1
 ,,0,2022-04-01T00:02:24Z,1
 ```
-#### CMD
+#### STDIN CMD
 ##### Generate
 ```bash
-echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' | ./fluxpipe
+echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' | ./fluxpipe -stdin
 ```
 ```csv
 #datatype,string,long,dateTime:RFC3339,long
@@ -57,11 +58,11 @@ echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T0
 ```
 ##### Parse CSV
 ```bash
-cat scripts/csv.flux | ./fluxpipe
+cat scripts/csv.flux | ./fluxpipe -stdin
 ```
 ##### Query SQL
 ```bash
-cat scripts/sql.flux | ./fluxpipe
+cat scripts/sql.flux | ./fluxpipe -stdin
 ```
 
 

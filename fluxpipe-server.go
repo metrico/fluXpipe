@@ -45,31 +45,35 @@ func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
 
 func postQuery(c echo.Context) error {
 
+	c.Response().Header().Set(echo.HeaderContentType, "text/csv; charset=utf-8")
+	c.Response().Header().Set("x-fluxpipe-cloud", "qxip")
+
 	content := c.Request().Header.Get("Content-Type")
 	s, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
 		return err
 	}
 
+	if strings.Contains(string(s), "buckets()") {
+		// fake bucket to make grafana happy
+		buckets := "#datatype,string,string,string,string,string,string,long\n"+
+			   "#default,_result,,,,,,\n" +
+			   ",result,table,name,id,organizationID,retentionPolicy,retentionPeriod\n"+
+			   ",_result,0,_fluxpipe,aa9f5aa08895152b,03dbe8db13d17000,,604800000000000\n"+
+			   "\n"
+		return c.String(http.StatusOK, buckets)
+	}
+
 	if strings.Contains(content, "json") {
 		json_map := make(map[string]interface{})
-		//err := json.NewDecoder(c.Request().Body).Decode(&json_map)
 		err := json.Unmarshal(s, &json_map)
 		if err != nil {
 			return err
 		} else {
 			q := json_map["query"]
 			query := fmt.Sprintf("%v", q)
-
-			if query == "buckets()" || query == "" {
-				// fake query
-				buckets := "{}"
-				return c.String(http.StatusOK, buckets)
-			} else {
-				// real query
-				res := exec(query)
-				return c.String(http.StatusOK, res)
-			}
+			res := exec(query)
+			return c.String(http.StatusOK, res)
 		}
 
 	} else {
@@ -85,6 +89,7 @@ func exec(inputString string) string {
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
 		fmt.Println("%s", inputString)
+		return string(fmt.Sprintf("%v", err))
 	}
 	defer close()
 
@@ -102,8 +107,11 @@ func exec(inputString string) string {
 
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
+		return string(fmt.Sprintf("%v", q.Err()))
+
+	} else {
+		return buf.String()
 	}
-	return buf.String()
 }
 
 func main() {

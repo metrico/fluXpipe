@@ -28,12 +28,12 @@ import (
 var APPNAME = "fluxpipe"
 
 func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
+	
 	program, err := lang.Compile(script, runtime.Default, time.Unix(0, 0))
 	if err != nil {
 		return nil, nil, err
 	}
 	ctx, deps := dependency.Inject(ctx, executetest.NewTestExecuteDependencies())
-
 	q, err := program.Start(ctx, memory.DefaultAllocator)
 	if err != nil {
 		deps.Finish()
@@ -42,18 +42,18 @@ func runQuery(ctx context.Context, script string) (flux.Query, func(), error) {
 	return q, deps.Finish, nil
 }
 
-
 func main() {
 
 	url  := flag.String("url", "", "ClickHouse MYSQL API URL")
 	port := flag.String("port", "8888", "API port")
-	api  := flag.Bool("api", true, "API start")
+	stdin  := flag.Bool("pipe", false, "STDIN mode")
+	cors  := flag.Bool("cors", true, "API cors mode")
 	flag.Parse()
 
 	scanner := bufio.NewScanner((os.Stdin))
 	inputString := ""
 
-	if *api == false {
+	if *stdin == true {
 
 		for scanner.Scan() {
 		        inputString = inputString + "\n" + scanner.Text()
@@ -74,22 +74,21 @@ func main() {
 	} else {
 
 		e := echo.New()
-
 		e.Use(middleware.Logger())
 		e.Use(middleware.Recover())
 
-		// CORS
-		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-			AllowOrigins: []string{"*"},
-			AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
-		}))
+		if *cors == true {
+			e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+				AllowOrigins: []string{"*"},
+				AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+			}))
+		}
 
 		e.GET("/", func(c echo.Context) error {
-			return c.String(http.StatusOK, "FLUX!")
+			return c.String(http.StatusOK, "F-L-U-X-P-I-P-E")
 		})
 
 		e.POST("/query", func(c echo.Context) error {
-
 			s, err := ioutil.ReadAll(c.Request().Body)
 			if err != nil {
 				return err
@@ -98,17 +97,13 @@ func main() {
 			return c.String(http.StatusOK, res)
 		})
 
-
 		fmt.Println("Starting API...")
 		e.Logger.Fatal(e.Start(":"+*port))
-
 	}
-
 }
 
-
 func exec(inputString string) string {
-
+	
 	q, close, err := runQuery(context.Background(), inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
@@ -131,7 +126,6 @@ func exec(inputString string) string {
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
 	}
-
+	
 	return buf.String()
-
 }

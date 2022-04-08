@@ -146,6 +146,7 @@ func main() {
 	} else {
 
 		e := echo.New()
+		e.HideBanner = true
 		e.Use(middleware.Logger())
 		e.Use(middleware.Recover())
 

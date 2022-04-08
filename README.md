@@ -1,7 +1,13 @@
 <img src="https://user-images.githubusercontent.com/1423657/161867564-4b3fc400-95e5-424c-9210-604d5671a85e.png" width=100 />
 
-# FluxPipe
-Experimental [flux](https://github.com/influxdata/flux) API pipeline for embedded datasources
+# <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" width=25 /> FluxPipe
+
+**FluxPipe** is an experimental indepenent API **flux** pipeline for *embedded datasources*
+
+> [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
+
+
+<br>
 
 ### Instructions
 Download a [binary release](https://github.com/lmangani/fluxpipe/releases/) or build from source
@@ -43,13 +49,15 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ,,0,2022-04-01T00:01:12Z,3
 ```
 
-##### Grafana Flux
+##### Grafana Flux [^1]
+Usage with native Grafana InfluxDB/Flux datasource:
 ```
 import g "generate" 
-g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n )
+g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n * 100 )
 ```
 ![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
 
+![image](https://user-images.githubusercontent.com/1423657/162428332-77d869a2-d02b-443d-a3ef-3df1fbf899f6.png)
 
 
 #### STDIN CMD
@@ -89,3 +97,6 @@ cat scripts/sql.flux | ./fluxpipe -stdin
 - [ ] output templates
 - [ ] shared secrets
 - [ ] bucket emulation
+
+
+[^1]: Project is not affiliated or endorsed by Influxdata or Grafana Labs. All rights belong to their respective owners.

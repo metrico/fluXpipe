@@ -24,10 +24,10 @@ Run with `-h` for a full list of parameters
 
 ### 🐛 Usage Examples
 #### HTTP API
-Fluxpipe serves a simple REST API compatible with existing integrations such as Grafana
+Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients
 
 ##### Grafana Flux [^1]
-Usage with native Grafana InfluxDB/Flux datasource:
+Usage with native **Grafana InfluxDB/Flux datasource** _(url + organization fields are required!)_
 ```
 import g "generate" 
 g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n * 100 )

@@ -2,7 +2,7 @@
 
 # <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" width=25 /> FluxPipe
 
-**FluxPipe** is an experimental indepenent API **flux** pipeline for *embedded datasources*
+**FluxPipe** is a *very experimental* indepenent API **flux** pipeline for *embedded datasources*
 
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
@@ -15,25 +15,33 @@ Download a [binary release](https://github.com/lmangani/fluxpipe/releases/) or b
 
 #### 📦 Download Binary
 ```bash
-curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe -O && chmod +x fluxpipe
+curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe-server -O && chmod +x fluxpipe-server
 ```
-
-#### 📖 Build CMD
-```bash
-go build -o fluxpipe -ldflags="-s -w" fluxpipe.go
-```
-
-#### 📖 Build Server
-```bash
-go build -o fluxpipe-server -ldflags="-s -w" fluxpipe-server.go
-```
-
-### 🐛 Examples
-#### HTTP API
-##### Generate CSV
+#### 🔌 Start Server w/ Options
 ```bash
 ./fluxpipe-server -port 8086
+```
 
+Run with `-h` for a full list of parameters
+
+### 🐛 Usage Examples
+#### HTTP API
+Fluxpipe serves a simple REST API compatible with existing integrations such as Grafana
+
+##### Grafana Flux [^1]
+Usage with native Grafana InfluxDB/Flux datasource:
+```
+import g "generate" 
+g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n * 100 )
+```
+![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
+
+![image](https://user-images.githubusercontent.com/1423657/162428332-77d869a2-d02b-443d-a3ef-3df1fbf899f6.png)
+
+##### Generate CSV
+Usage with curl
+
+```bash
 curl -XPOST localhost:8086/api/v2/query -sS \
   -H 'Accept:application/csv' \
   -H 'Content-type:application/vnd.flux' \
@@ -49,18 +57,11 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ,,0,2022-04-01T00:01:12Z,3
 ```
 
-##### Grafana Flux [^1]
-Usage with native Grafana InfluxDB/Flux datasource:
-```
-import g "generate" 
-g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n * 100 )
-```
-![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
-
-![image](https://user-images.githubusercontent.com/1423657/162428332-77d869a2-d02b-443d-a3ef-3df1fbf899f6.png)
-
+------
 
 #### STDIN CMD
+Fluxpipe can be used as a command-line tool and stdin pipeline processor
+
 ##### Generate CSV
 ```bash
 echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' \

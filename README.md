@@ -1,6 +1,4 @@
-<img src="https://user-images.githubusercontent.com/1423657/161867564-4b3fc400-95e5-424c-9210-604d5671a85e.png" width=100 />
-
-# <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" width=25 /> FluxPipe
+# <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" height=60/> <img src="https://user-images.githubusercontent.com/1423657/162501021-e29869be-d41e-44e9-af2a-94204cf3ad2c.png" height=60 />
 
 **FluxPipe** is a *very experimental* indepenent API **flux** pipeline for *embedded datasources*
 

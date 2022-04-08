@@ -34,8 +34,6 @@ g.from(start:  v.timeRangeStart, stop: v.timeRangeStop, count: 10, fn: (n) => n 
 ```
 ![image](https://user-images.githubusercontent.com/1423657/162274743-b454d3e6-e678-43aa-8ad6-8d612f2857b5.png)
 
-Import the [sample dashboard](https://gist.github.com/lmangani/da3ab38bbed05b171f468285cac3894b/raw/858e7c8ccfd0441e76d36e691c3b3a0da3a1efb6/fluxpipe-dashboard.json) to test the datasource with fake data
-
 ![image](https://user-images.githubusercontent.com/1423657/162428332-77d869a2-d02b-443d-a3ef-3df1fbf899f6.png)
 
 ##### Generate CSV

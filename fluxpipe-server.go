@@ -72,24 +72,35 @@ func postQuery(c echo.Context) error {
 		} else {
 			q := json_map["query"]
 			query := fmt.Sprintf("%v", q)
-			res := exec(query)
-			return c.String(http.StatusOK, res)
+			res, err := exec(query)
+			if len(err) > 0 {
+				c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
+				c.Response().Header().Set("x-platform-error-code", "invalid")
+				return c.String(400, err)
+			} else {
+				return c.String(http.StatusOK, res)
+			}
 		}
 
 	} else {
 
-		res := exec(string(s))
-		return c.String(http.StatusOK, res)
+		res, err := exec(string(s))
+		if len(err) > 0 {
+			c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
+			c.Response().Header().Set("x-platform-error-code", "invalid")
+			return c.String(400, err)
+		} else {
+			return c.String(http.StatusOK, res)
+		}
 	}
 }
 
-func exec(inputString string) string {
+func exec(inputString string) (string, string) {
 
 	q, close, err := runQuery(context.Background(), inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
-		fmt.Println("%s", inputString)
-		return string(fmt.Sprintf("%v", err))
+		return "", string(fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err))
 	}
 	defer close()
 
@@ -107,10 +118,10 @@ func exec(inputString string) string {
 
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
-		return string(fmt.Sprintf("%v", q.Err()))
+		return "", string(fmt.Sprintf(`{"code":"invalid","message":"%v"}`, q.Err() ))
 
 	} else {
-		return buf.String()
+		return buf.String(), ""
 	}
 }
 
@@ -140,7 +151,7 @@ func main() {
 			inputString = strings.ReplaceAll(inputString, orig, repl)
 		}
 
-		buf := exec(inputString)
+		buf, _ := exec(inputString)
 		fmt.Println(strings.Replace(buf, "\r\n", "\n", -1))
 
 	} else {
@@ -163,7 +174,9 @@ func main() {
 		e.GET("/ping", func(c echo.Context) error {
 			return c.String(204, "OK")
 		})
-
+		e.GET("/health", func(c echo.Context) error {
+			return c.String(204, "OK")
+		})
 		e.POST("/api/v2/query", postQuery)
 		e.POST("/query", postQuery)
 

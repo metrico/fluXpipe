@@ -12,7 +12,7 @@
 - [x] Fluxlib/Fluxlang integration
 - [x] ClickHouse driver by @adubovikov
 - [x] STDIN pipeline
-- [x] HEEP api
+- [x] HTTP api
   - [x] plaintext
   - [x] json support
   - [ ] bucket emulator 

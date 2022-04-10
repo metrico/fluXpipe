@@ -54,7 +54,6 @@ jobs:
         
     - name: Compress Fluxpipe
       run: |
-        strip fluxpipe
         strip fluxpipe-server
         upx fluxpipe fluxpipe-server
         
@@ -73,7 +72,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         release_config: |
-            fluxpipe
             fluxpipe-server
         tag_name: v${{ steps.time.outputs.time }}
         release_name: fluxpipe_v${{ steps.time.outputs.time }}

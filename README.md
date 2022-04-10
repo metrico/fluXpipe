@@ -9,7 +9,10 @@
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
 #### Status
-- [x] Fluxlib/Fluxlang integration
+- [x] Fluxlib
+  - [x] parser
+  - [x] executor
+  - [x] dep injector
 - [x] ClickHouse driver by @adubovikov
 - [x] STDIN pipeline
 - [x] HTTP api
@@ -85,7 +88,7 @@ Fluxpipe can be used as a command-line tool and stdin pipeline processor
 ###### Generate CSV
 ```bash
 echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' \
-| ./fluxpipe -stdin
+| ./fluxpipe-server -stdin
 ```
 ```csv
 #datatype,string,long,dateTime:RFC3339,long
@@ -100,11 +103,11 @@ echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T0
 ```
 ##### Parse CSV
 ```bash
-cat scripts/csv.flux | ./fluxpipe -stdin
+cat scripts/csv.flux | ./fluxpipe-server -stdin
 ```
 ##### Query SQL
 ```bash
-cat scripts/sql.flux | ./fluxpipe -stdin
+cat scripts/sql.flux | ./fluxpipe-server -stdin
 ```
 
 

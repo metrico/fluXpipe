@@ -55,7 +55,7 @@ jobs:
     - name: Compress Fluxpipe
       run: |
         strip fluxpipe-server
-        upx fluxpipe fluxpipe-server
+        upx fluxpipe-server
         
     - name: Get Timestamp
       if: github.event_name != 'pull_request'

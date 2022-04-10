@@ -9,6 +9,7 @@
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
 #### Status
+- [x] Fluxlib/Fluxlang integration
 - [x] ClickHouse driver by @adubovikov
 - [x] STDIN pipeline
 - [x] HEEP api

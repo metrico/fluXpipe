@@ -14,6 +14,7 @@
   - [x] executor
   - [x] dep injector
 - [x] ClickHouse driver by @adubovikov
+  - [ ] driver tests
 - [x] STDIN pipeline
 - [x] HTTP api
   - [x] plaintext

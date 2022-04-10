@@ -8,7 +8,16 @@
 
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
-
+<br<
+#### Status
+- [x] ClickHouse driver by @adubovikov
+- [x] STDIN pipeline
+- [x] HEEP api
+  - [x] plaintext
+  - [x] json support
+  - [ ] bucket emulator 
+  - [ ] api doc
+- [ ] shared secrets
 <br>
 
 ### Instructions
@@ -100,14 +109,7 @@ cat scripts/sql.flux | ./fluxpipe -stdin
 
 
 
-## Status
-- [x] stdin pipeline
-- [x] ClickHouse driver by @adubovikov
-- [x] http api
-  - [x] plaintext
-  - [x] json support
-  - [ ] api doc
-- [ ] shared secrets
+
 
 
 [^1]: Project is not affiliated or endorsed by Influxdata or Grafana Labs. All rights belong to their respective owners.

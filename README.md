@@ -4,11 +4,10 @@
 
 # <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" height=25/> FluxPipe 
 
-**FluxPipe** is a *very experimental* indepenent **Flux API** for *ClickHouse* and other *embedded datasources*
+**FluxPipe** is a *very experimental* stand-alone **Flux API** for *ClickHouse* and other *embedded datasources*
 
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
-<br<
 #### Status
 - [x] ClickHouse driver by @adubovikov
 - [x] STDIN pipeline

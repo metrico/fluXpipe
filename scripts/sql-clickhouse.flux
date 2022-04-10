@@ -1,9 +1,9 @@
 import "sql" 
 
-// Run service with auto-replace of clickhouse-mysql URL details:
-//
-// # fluxpipe-server -url "default:password@tcp(127.0.0.1:9004)/system"
-//
-
-sql.from(driverName: "clickhouse", query: "SELECT database, total_rows FROM tables") 
-|> rename(columns: {database: "_value", total_rows: "_data"}) |> keep(columns: ["_value","_data"])
+sql.from(
+  driverName: "clickhouse",
+  dataSourceName: "clickhouse://default:@clickhouse-host:9000/system",
+  query: "SELECT database, total_rows FROM tables WHERE total_rows > 0"
+) 
+|> rename(columns: {database: "_value", total_rows: "_data"})
+|> keep(columns: ["_value","_data"])

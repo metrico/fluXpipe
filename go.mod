@@ -3,13 +3,12 @@ module github.com/lmangani/fluxpipe
 go 1.18
 
 replace (
-	github.com/influxdata/flux v0.162.0 => github.com/adubovikov/flux master
-	github.com/influxdata/flux => github.com/adubovikov/flux master
+	github.com/influxdata/flux => github.com/adubovikov/flux v0.163.1-0.20220410134931-cfeae59166c7
+	github.com/influxdata/flux v0.162.0 => github.com/adubovikov/flux v0.163.1-0.20220410134931-cfeae59166c7
 )
 
 require (
 	github.com/influxdata/flux v0.162.0
-	github.com/adubovikov/flux master
 	github.com/labstack/echo/v4 v4.2.1
 )
 
@@ -27,6 +26,7 @@ require (
 	github.com/Azure/go-autorest/autorest/date v0.3.0 // indirect
 	github.com/Azure/go-autorest/logger v0.2.1 // indirect
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
+	github.com/ClickHouse/clickhouse-go/v2 v2.0.12 // indirect
 	github.com/DATA-DOG/go-sqlmock v1.4.1 // indirect
 	github.com/SAP/go-hdb v0.14.1 // indirect
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883 // indirect
@@ -80,13 +80,15 @@ require (
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
-	github.com/pierrec/lz4/v4 v4.1.11 // indirect
+	github.com/paulmach/orb v0.4.0 // indirect
+	github.com/pierrec/lz4/v4 v4.1.14 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_model v0.1.0 // indirect
 	github.com/prometheus/common v0.7.0 // indirect
 	github.com/segmentio/kafka-go v0.1.0 // indirect
 	github.com/sergi/go-diff v1.0.0 // indirect
+	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/uber-go/tally v3.3.15+incompatible // indirect
 	github.com/uber/athenadriver v1.1.4 // indirect
@@ -96,6 +98,8 @@ require (
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/vertica/vertica-sql-go v1.1.1 // indirect
 	go.opencensus.io v0.23.0 // indirect
+	go.opentelemetry.io/otel v1.4.1 // indirect
+	go.opentelemetry.io/otel/trace v1.4.1 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0 // indirect

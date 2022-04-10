@@ -26,23 +26,23 @@ jobs:
         go-version: 1.17
     
     - name: Cache Flux Build
-      id: cache-qflux-go
+      id: cache-flux-go
       uses: actions/cache@v3
       with:
         path: |
           flux
           ~/.cache/go-build
           ~/go/pkg/mod
-        key: ${{ runner.os }}-flux
+        key: ${{ runner.os }}-flux-fork
         
     - name: Get Flux
-      if: steps.cache-qflux-go.outputs.cache-hit != 'true'
+      if: steps.cache-flux-go.outputs.cache-hit != 'true'
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
         owner: 'adubovikov'
         repository: 'flux'
     - name: Compile Flux
-      if: steps.cache-qflux-go.outputs.cache-hit != 'true'
+      if: steps.cache-flux-go.outputs.cache-hit != 'true'
       run: |
         cd flux
         make

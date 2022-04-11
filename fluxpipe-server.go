@@ -124,7 +124,6 @@ func exec(inputString string) (string, string) {
 
 func main() {
 
-	url  := flag.String("url", "", "ClickHouse MYSQL API URL")
 	port := flag.String("port", "8086", "API port")
 	stdin  := flag.Bool("stdin", false, "STDIN mode")
 	cors  := flag.Bool("cors", true, "API cors mode")
@@ -140,12 +139,6 @@ func main() {
 		}
 		if err := scanner.Err(); err != nil {
 			fmt.Fprintln(os.Stderr, "reading standard input:", err)
-		}
-
-		if len(*url) > 1 {
-			orig := `"clickhouse"`
-			repl := fmt.Sprintf(`"mysql", dataSourceName: "%s"`, *url)
-			inputString = strings.ReplaceAll(inputString, orig, repl)
 		}
 
 		buf, _ := exec(inputString)
@@ -166,7 +159,7 @@ func main() {
 		}
 
 		e.GET("/", func(c echo.Context) error {
-			return c.String(http.StatusOK, "F-L-U-X-P-I-P-E")
+			return c.String(http.StatusOK, "|> FluxPIPE")
 		})
 		e.GET("/ping", func(c echo.Context) error {
 			return c.String(204, "OK")
@@ -177,7 +170,7 @@ func main() {
 		e.POST("/api/v2/query", postQuery)
 		e.POST("/query", postQuery)
 
-		fmt.Println("|> FluxPIPE |>")
+		fmt.Println("|> FluxPIPE")
 		e.Logger.Fatal(e.Start(":"+*port))
 	}
 }

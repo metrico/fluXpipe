@@ -35,6 +35,8 @@ curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe-server
 
 Run with `-h` for a full list of parameters
 
+<br>
+
 ### 🐛 Usage Examples
 #### HTTP API
 Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients

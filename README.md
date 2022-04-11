@@ -8,17 +8,14 @@
 - [x] Fluxlib
   - [x] parser
   - [x] executor
-  - [x] dep injector
 - [x] ClickHouse driver by @adubovikov
   - [ ] driver tests
 - [x] STDIN pipeline
 - [x] HTTP api
   - [x] plaintext
   - [x] json support
-  - [ ] bucket emulator 
   - [ ] api doc
-- [ ] shared secrets
-<br>
+
 
 ### Instructions
 Download a [binary release](https://github.com/lmangani/fluxpipe/releases/) or build from source

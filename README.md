@@ -1,8 +1,4 @@
-<img src='https://user-images.githubusercontent.com/1423657/147935343-598c7dfd-1412-4bad-9ac6-636994810443.png' style="margin-left:-10px" width=170>
-
-
-
-# <img src="https://user-images.githubusercontent.com/1423657/162334409-293641a0-712a-45b7-96f2-30f9ca3bc22e.gif" height=25/> FluxPipe 
+# <img src="https://user-images.githubusercontent.com/1423657/162720189-976cc0cc-7511-4278-a942-9c4e7cc9148a.png" width=350 />
 
 **FluxPipe** is a *very experimental* stand-alone **Flux API** for *ClickHouse* and other *embedded datasources*
 

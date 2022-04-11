@@ -1,9 +1,5 @@
 import "experimental/http/requests"
 
- response = requests.do(
-     method: "GET",
-     url: "http://example.com",
-     params: ["start": ["100"]],
- )
+response = requests.post(url: "http://example.com")
 
- requests.peek(response: response) 
+requests.peek(response: response)

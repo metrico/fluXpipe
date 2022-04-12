@@ -14,6 +14,6 @@ jsonData = json.parse(data: bytes(v: json_raw))
 array.from(rows: jsonData.data.result[0].values
 |> array.map(
     fn: (x) => ({ 
-        time: x[0],
-        line: x[1]
+        _time: time(v: uint(v: x[0] )),
+        _value: x[1]
 })))

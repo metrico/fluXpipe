@@ -4,18 +4,7 @@
 
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
-#### Status
-- [x] Fluxlib
-  - [x] parser
-  - [x] executor
-- [x] ClickHouse driver by @adubovikov
-  - [ ] driver tests
-- [x] STDIN pipeline
-- [x] HTTP api
-  - [x] plaintext
-  - [x] json support
-  - [ ] api doc
-
+<br>
 
 ### Instructions
 Download a [binary release](https://github.com/lmangani/fluxpipe/releases/) or build from source
@@ -35,6 +24,8 @@ Run with `-h` for a full list of parameters
 <br>
 
 ### 🐛 Usage Examples
+
+
 #### HTTP API
 Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients
 
@@ -106,6 +97,17 @@ cat scripts/csv.flux | ./fluxpipe-server -stdin
 cat scripts/sql.flux | ./fluxpipe-server -stdin
 ```
 
+#### Status
+- [x] Fluxlib
+  - [x] parser
+  - [x] executor
+- [x] ClickHouse driver by @adubovikov
+  - [ ] driver tests
+- [x] STDIN pipeline
+- [x] HTTP api
+  - [x] plaintext
+  - [x] json support
+  - [ ] api doc
 
 
 

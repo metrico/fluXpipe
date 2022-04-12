@@ -8,8 +8,7 @@ api = "http://cloki-server:3100/loki/api/v1"
 url = "${api}/query_range?limit=${limit}&query=${query}"
 
 response = requests.get(url: url)
-json_raw = string(v: response.body)
-jsonData = json.parse(data: bytes(v: json_raw))
+jsonData = json.parse(data: response.body)
 
 array.from(rows: jsonData.data.result[0].values
 |> array.map(

@@ -23,8 +23,11 @@ Run with `-h` for a full list of parameters
 
 <br>
 
-### 🐛 Usage Examples
+### 🐛 Usage
 
+💡 _Check out the [scripts](scripts) folder for working examples_
+
+<br>
 
 #### HTTP API
 Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients

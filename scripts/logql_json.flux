@@ -1,20 +1,36 @@
-/* Unwrap the raw log string from a json wrapper */
+/* Unwrap the raw log string from a json wrapper
+    We assume a log string was asserted with
+    tag: label and value: key.
+
+    We assume values are JSON key:value pairs such as:
+    {
+      "test": "value",
+      "number": "12"
+    }
+ */
+
+/* Require necessary imports */
 import "experimental/json"
 import "experimental/http/requests"
 import "experimental/array"
 import "strings"
 import "dict"
 
+/* Build time range from external input (v) */
 tstart = string( v: uint(v: time(v: v.timeRangeStart)))
 tend = string(v: uint(v: time(v: v.timeRangeStop)))
 
+/* build query from inputs */
 range = "&start${tstart}&end=${tend}"
 query = "{label=\"key\"}"
 limit = "100"
 server = "http://localhost:3100/loki/api/v1/query_range?limit=${limit}&query=${query}${range}"
+/* Call REST Api with built query */
 response = requests.get(url: server)
+/* Process initial response */
 jsonData = json.parse(data: response.body)
 
+/* Build a table from an array of values */
 array.from(rows: jsonData.data.result[0].values
 |> array.map(
     fn: (x) => (
@@ -43,34 +59,3 @@ array.from(rows: jsonData.data.result[0].values
     }
   )
 )
-
-/* Json Value Extraction */
-
-import "experimental"
-import "experimental/json"
-import "experimental/http/requests"
-import "experimental/array"
-import "strings"
-import "dict"
-
-
-tstart = string( v: uint(v: time(v: v.timeRangeStart)))
-tend = string(v: uint(v: time(v: v.timeRangeStop)))
-
-range = "&start${tstart}&end=${tend}"
-query = "{label=\"value\"}|json"
-limit = "100"
-server = "http://localhost:3100/loki/api/v1/query_range?limit=${limit}&query=${query}${range}"
-response = requests.get(url: server)
-jsonData = json.parse(data: response.body)
-
-array.from(rows: jsonData.data.result
-|> array.map(
-    fn: (x) => ({
-        _raw: display(v: x),
-        "Value": float(v: x.stream.value),
-        "Timestamp": display(v: x.values[0][0])
-      })
-  )
-)
- |> mean(column: "Value")

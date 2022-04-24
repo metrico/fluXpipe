@@ -110,6 +110,7 @@ cat scripts/sql.flux | ./fluxpipe-server -stdin
 - [x] HTTP api
   - [x] plaintext
   - [x] json support
+  - [ ] ENV secrets
   - [ ] api doc
 
 

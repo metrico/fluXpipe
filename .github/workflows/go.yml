@@ -39,7 +39,7 @@ jobs:
       if: steps.cache-flux-go.outputs.cache-hit != 'true'
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
-        owner: 'metrico'
+        owner: 'adubovikov'
         repository: 'flux'
     - name: Compile Flux
       if: steps.cache-flux-go.outputs.cache-hit != 'true'

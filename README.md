@@ -100,6 +100,11 @@ cat scripts/csv.flux | ./fluxpipe-server -stdin
 cat scripts/sql.flux | ./fluxpipe-server -stdin
 ```
 
+## Public Demo
+Configure your Grafana instance with our public demo endpoint _(limited resources)_
+![image](https://user-images.githubusercontent.com/1423657/185748494-0c6a95da-d112-46ab-b9db-b09438b63740.png)
+
+
 #### Status
 - [x] Fluxlib
   - [x] parser

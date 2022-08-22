@@ -21,7 +21,8 @@ Run with `-h` for a full list of parameters
 
 #### 🐋 Using Docker
 ```bash
-docker run -ti --rm p 8086:8086 qxip/fluxpipe:latest
+docker pull ghcr.io/metrico/fluxpipe:latest
+docker run -ti --rm p 8086:8086 ghcr.io/metrico/fluxpipe:latest
 ```
 
 <br>

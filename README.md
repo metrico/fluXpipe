@@ -7,19 +7,22 @@
 <br>
 
 ### Instructions
-Download a [binary release](https://github.com/lmangani/fluxpipe/releases/) or build from source
-
+Download a [binary release](https://github.com/lmangani/fluxpipe/releases/), [docker](https://hub.docker.com/r/qxip/fluxpipe) or build from source
 
 #### 📦 Download Binary
 ```bash
 curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe-server -O && chmod +x fluxpipe-server
 ```
-#### 🔌 Start Server w/ Options
+##### 🔌 Start Server w/ Options
 ```bash
 ./fluxpipe-server -port 8086
 ```
-
 Run with `-h` for a full list of parameters
+
+#### 🐋 Using Docker
+```bash
+docker run -ti --rm p 8086:8086 qxip/fluxpipe:latest
+```
 
 <br>
 

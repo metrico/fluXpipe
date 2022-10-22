@@ -31,7 +31,7 @@
 
     <style>
       :root {
-        --background-color: #ddf8ff; /* Or #FFFBEF; actually many pastel colors look great for light theme. */
+        --background-color: #EEEFEE; /* Or #FFFBEF; actually many pastel colors look great for light theme. */
         --element-background-color: #fff;
         --bar-color: #f8f4f0; /* Light bar in background of table cells. */
         --border-color: #eee;
@@ -529,8 +529,8 @@
         <select class="shadow" id="dropdown" style="margin-left: 5px;">
             <option value=""></option>
             <option value='import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => n+1)'>Generator</option>
+            <option value='import "array" import "runtime" array.from(rows: [{version: runtime.version()}])'>version</option>
         </select>
-        
         <span id="stats"></span>
         <span id="toggle-dark">🌑</span><span id="toggle-light">🌞</span>
       </div>

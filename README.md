@@ -104,6 +104,11 @@ cat scripts/csv.flux | ./fluxpipe-server -stdin
 cat scripts/sql.flux | ./fluxpipe-server -stdin
 ```
 
+## Playground
+Fluxpipe embeds a playground interface to instantly execute queries
+
+![image](https://user-images.githubusercontent.com/1423657/197345705-10dcc36d-53ce-41d8-95b9-59b2f18e9f2d.png)
+
 ## Public Demo
 Configure your Grafana instance with our public demo endpoint _(limited resources)_
 ![image](https://user-images.githubusercontent.com/1423657/185748494-0c6a95da-d112-46ab-b9db-b09438b63740.png)

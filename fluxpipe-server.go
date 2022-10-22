@@ -158,7 +158,9 @@ func main() {
 			}))
 		}
 
-		e.GET("/", func(c echo.Context) error {
+		e.File("/", "play.html")
+		
+		e.GET("/hello", func(c echo.Context) error {
 			return c.String(http.StatusOK, "|> FluxPIPE")
 		})
 		e.GET("/ping", func(c echo.Context) error {

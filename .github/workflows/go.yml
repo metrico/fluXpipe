@@ -56,13 +56,13 @@ jobs:
       if: steps.cache-flux-go.outputs.cache-hit != 'true'
       run: |
         cd flux
-        cat flux.pc
-        pwd
         make
         
     - name: Build Fluxpipe
       run: |
         sed -i 's|/usr/src/|/home/runner/work/fluxpipe/fluxpipe/|g' flux.pc
+        pwd
+        ls -alF
         ./build.sh
         
     - name: Compress Fluxpipe

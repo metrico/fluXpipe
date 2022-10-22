@@ -1,4 +1,4 @@
-name: Go-Rust-Flux
+name: Build-n-Release
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
-        go-version: 1.17
+        go-version: 1.18
     
     - name: Get Cache TS
       if: github.event_name != 'pull_request'
@@ -41,7 +41,9 @@ jobs:
           flux
           ~/.cache/go-build
           ~/go/pkg/mod
-        key: ${{ runner.os }}-flux-fork-${{ steps.cachetime.outputs.time }}
+        key: ${{ runner.os }}-flux-${{ hashFiles('**/fluxpipe-server.go') }}
+        restore-keys: |
+          ${{ runner.os }}-flux-
         
     - name: Get Flux
       if: steps.cache-flux-go.outputs.cache-hit != 'true'
@@ -86,3 +88,25 @@ jobs:
         draft: false
         prerelease: false
         overwrite: true   
+        
+  dockerize:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3.0.0
+        with:
+          context: .
+          push: true
+          tags: |
+             ghcr.io/metrico/fluxpipe:latest

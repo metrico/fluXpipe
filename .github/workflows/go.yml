@@ -28,14 +28,6 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.18
-    
-    - name: Get Cache TS
-      if: github.event_name != 'pull_request'
-      id: cachetime
-      uses: nanzm/get-time-action@v1.1
-      with:
-        timeZone: 0
-        format: 'YYYYMMDD'
         
     - name: Cache Flux Build
       id: cache-flux-go
@@ -45,9 +37,9 @@ jobs:
           flux
           ~/.cache/go-build
           ~/go/pkg/mod
-        key: ${{ runner.os }}-flux-${{ hashFiles('**/fluxpipe-server.go') }}
+        key: ${{ runner.os }}-fluxpipe-${{ hashFiles('**/fluxpipe-server.go') }}
         restore-keys: |
-          ${{ runner.os }}-flux-
+          ${{ runner.os }}-fluxpipe-
         
     - name: Get Flux
       if: steps.cache-flux-go.outputs.cache-hit != 'true'

@@ -60,9 +60,7 @@ jobs:
         
     - name: Build Fluxpipe
       run: |
-        sed -i 's|/usr/src/|/home/runner/work/fluxpipe/fluxpipe/|g' flux.pc
-        pwd
-        ls -alF
+        sed -i 's:/usr/src:'`pwd`':' flux.pc
         ./build.sh
         
     - name: Compress Fluxpipe

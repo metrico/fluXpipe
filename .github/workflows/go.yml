@@ -30,7 +30,7 @@ jobs:
         go-version: 1.18
         
     - name: Cache Flux Build
-      id: cache-flux-go
+      id: cacheflux
       uses: actions/cache@v3
       with:
         path: |
@@ -40,16 +40,20 @@ jobs:
         key: ${{ runner.os }}-fluxpipe-${{ hashFiles('**/fluxpipe-server.go') }}
         restore-keys: |
           ${{ runner.os }}-fluxpipe-
-        
+          
+    - name: Cache Status
+      run: |
+        echo ${{steps.cacheflux.outputs.cache-hit}}
+      
     - name: Get Flux
-      if: steps.cache-flux-go.outputs.cache-hit != 'true'
+      if: ${{ steps.cacheflux.outputs.cache-hit != 'true' }}
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
         owner: 'adubovikov'
         repository: 'flux'
         
     - name: Compile Flux
-      if: steps.cache-flux-go.outputs.cache-hit != 'true'
+      if: ${{ steps.cacheflux.outputs.cache-hit != 'true' }}
       run: |
         cd flux
         make

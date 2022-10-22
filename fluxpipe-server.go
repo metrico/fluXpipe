@@ -22,9 +22,13 @@ import (
 	"net/http"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	 _ "embed"
 )
 
 var APPNAME = "fluxpipe"
+
+//go:embed play.html
+var PLAY []byte
 
 func runQuery(ctx context.Context, script string) (flux.Query, error) {
 
@@ -158,7 +162,9 @@ func main() {
 			}))
 		}
 
-		e.File("/", "play.html")
+		e.GET("/", func(c echo.Context) error {
+                        return c.Blob(http.StatusOK, "text/html", PLAY)
+                })
 		
 		e.GET("/hello", func(c echo.Context) error {
 			return c.String(http.StatusOK, "|> FluxPIPE")

@@ -27,8 +27,10 @@ import (
 
 var APPNAME = "fluxpipe"
 
-//go:embed play.html
+//go:embed static/play.html
 var PLAY []byte
+//go:embed static/favicon.ico
+var FAVICON []byte
 
 func runQuery(ctx context.Context, script string) (flux.Query, error) {
 
@@ -165,7 +167,10 @@ func main() {
 		e.GET("/", func(c echo.Context) error {
                         return c.Blob(http.StatusOK, "text/html", PLAY)
                 })
-		
+		e.GET("/favicon.ico", func(c echo.Context) error {
+                        return c.Blob(http.StatusOK, "image/x-icon", FAVICON)
+                })
+
 		e.GET("/hello", func(c echo.Context) error {
 			return c.String(http.StatusOK, "|> FluxPIPE")
 		})

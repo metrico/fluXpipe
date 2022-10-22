@@ -25,6 +25,14 @@ jobs:
       with:
         go-version: 1.17
     
+    - name: Get Cache TS
+      if: github.event_name != 'pull_request'
+      id: cachetime
+      uses: nanzm/get-time-action@v1.1
+      with:
+        timeZone: 0
+        format: 'YYYYMMDD'
+        
     - name: Cache Flux Build
       id: cache-flux-go
       uses: actions/cache@v3
@@ -33,7 +41,7 @@ jobs:
           flux
           ~/.cache/go-build
           ~/go/pkg/mod
-        key: ${{ runner.os }}-flux-fork
+        key: ${{ runner.os }}-flux-fork-${{ steps.cachetime.outputs.time }}
         
     - name: Get Flux
       if: steps.cache-flux-go.outputs.cache-hit != 'true'

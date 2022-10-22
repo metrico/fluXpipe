@@ -13,7 +13,8 @@ Download a [binary release](https://github.com/lmangani/fluxpipe/releases/), [do
 
 #### 📦 Download Binary
 ```bash
-curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe-server -O && chmod +x fluxpipe-server
+curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe-server -O \
+&& chmod +x fluxpipe-server
 ```
 ##### 🔌 Start Server w/ Options
 ```bash

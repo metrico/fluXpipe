@@ -100,8 +100,8 @@ jobs:
       with:
         release_config: |
             fluxpipe-server
-        tag_name: v${{ steps.time.outputs.time }}
-        release_name: fluxpipe_${{ VERSION }}_${{ TIME }}
+        tag_name: ${{ env.VERSION }}
+        release_name: fluxpipe_${{ env.VERSION }}
         draft: false
         prerelease: false
         overwrite: true   
@@ -127,4 +127,4 @@ jobs:
           push: true
           tags: |
              ghcr.io/metrico/fluxpipe:latest
-             ghcr.io/metrico/fluxpipe:${{ VERSION }}
+             ghcr.io/metrico/fluxpipe:${{ env.VERSION }}

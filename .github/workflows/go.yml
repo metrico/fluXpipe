@@ -104,25 +104,20 @@ jobs:
         prerelease: false
         overwrite: true   
         
-  dockerize:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2.0.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Log in to the Container registry
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v2.0.0
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v3.0.0
-        with:
-          context: .
-          push: true
-          tags: |
-             ghcr.io/metrico/fluxpipe:latest
-             ghcr.io/metrico/fluxpipe:${{ env.VERSION }}
+    - name: Docker Build and push
+      if: github.event_name != 'pull_request'
+      uses: docker/build-push-action@v3.0.0
+      with:
+        context: .
+        push: true
+        tags: |
+           ghcr.io/metrico/fluxpipe:latest
+           ghcr.io/metrico/fluxpipe:${{ env.VERSION }}

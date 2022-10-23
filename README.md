@@ -37,7 +37,7 @@ docker run -ti --rm p 8086:8086 ghcr.io/metrico/fluxpipe:latest
 ### Playground
 Fluxpipe embeds a playground interface to instantly execute queries _(borrowed from ClickHouse)_
 
-![image](https://user-images.githubusercontent.com/1423657/197345705-10dcc36d-53ce-41d8-95b9-59b2f18e9f2d.png)
+<a href="https://fluxpipe.fly.dev"><img src="https://user-images.githubusercontent.com/1423657/197345705-10dcc36d-53ce-41d8-95b9-59b2f18e9f2d.png"></a>
 
 <br>
 

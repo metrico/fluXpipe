@@ -54,6 +54,8 @@ jobs:
       if: steps.cacheflux.outputs.cache-hit != 'true'
       run: |
         cd flux
+        go mod tidy
+        go get ./...
         make
         
     - name: Build Fluxpipe

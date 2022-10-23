@@ -68,6 +68,16 @@ jobs:
         strip fluxpipe-server
         upx fluxpipe-server
         
+    - id: tag_bump
+      if: github.event_name != 'pull_request'
+      name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.52.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEFAULT_BUMP: patch
+        BRANCH: main
+        WITH_V: true
+        
     - name: Get Timestamp
       if: github.event_name != 'pull_request'
       id: time
@@ -76,6 +86,12 @@ jobs:
         timeZone: 0
         format: 'YYYYMMDDHHmmss'
         
+    - run: |
+        export VERSION=${{ steps.tag_bump.outputs.new_tag }}
+        echo "::set-env name=VERSION::$VERSION"
+        export TIME=${{ steps.time.outputs.time }}
+        echo "::set-env name=TIME::$TIME"
+    
     - name: Upload release
       if: github.event_name != 'pull_request'
       uses: boxpositron/upload-multiple-releases@1.0.7
@@ -85,7 +101,7 @@ jobs:
         release_config: |
             fluxpipe-server
         tag_name: v${{ steps.time.outputs.time }}
-        release_name: fluxpipe_v${{ steps.time.outputs.time }}
+        release_name: fluxpipe_${{ VERSION }}_${{ TIME }}
         draft: false
         prerelease: false
         overwrite: true   
@@ -111,3 +127,4 @@ jobs:
           push: true
           tags: |
              ghcr.io/metrico/fluxpipe:latest
+             ghcr.io/metrico/fluxpipe:${{ VERSION }}

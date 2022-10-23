@@ -34,7 +34,7 @@ var FAVICON []byte
 
 func runQuery(ctx context.Context, script string) (flux.Query, error) {
 
-	program, err := lang.Compile(script, runtime.Default, time.Unix(0, 0))
+	program, err := lang.Compile(ctx, script, runtime.Default, time.Now())
 	if err != nil {
 		return nil, err
 	}

@@ -9,7 +9,7 @@
 <br>
 
 ### Instructions
-Download a [binary release](https://github.com/lmangani/fluxpipe/releases/), [docker](https://hub.docker.com/r/qxip/fluxpipe) or build from source
+Download a [binary release](https://github.com/lmangani/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source
 
 #### 📦 Download Binary
 ```bash
@@ -33,6 +33,11 @@ docker run -ti --rm p 8086:8086 ghcr.io/metrico/fluxpipe:latest
 ### 🐛 Usage
 
 💡 _Check out the [scripts](scripts) folder for working examples_
+
+### Playground
+Fluxpipe embeds a playground interface to instantly execute queries _(borrowed from ClickHouse)_
+
+![image](https://user-images.githubusercontent.com/1423657/197345705-10dcc36d-53ce-41d8-95b9-59b2f18e9f2d.png)
 
 <br>
 
@@ -110,11 +115,6 @@ cat scripts/sql.flux | ./fluxpipe-server -stdin
 <br>
 
 ## Public Demo
-
-### Playground
-Fluxpipe embeds a playground interface to instantly execute queries _(borrowed from ClickHouse)_
-
-![image](https://user-images.githubusercontent.com/1423657/197345705-10dcc36d-53ce-41d8-95b9-59b2f18e9f2d.png)
 
 ### Grafana Datasource
 Configure your Grafana instance with our public demo endpoint _(limited resources)_

@@ -88,9 +88,9 @@ jobs:
         
     - run: |
         export VERSION=${{ steps.tag_bump.outputs.new_tag }}
-        echo "::set-env name=VERSION::$VERSION"
+        echo "::set-env name=VERSION::${{ steps.tag_bump.outputs.new_tag }}"
         export TIME=${{ steps.time.outputs.time }}
-        echo "::set-env name=TIME::$TIME"
+        echo "::set-env name=TIME::${{ steps.time.outputs.time }}"
     
     - name: Upload release
       if: github.event_name != 'pull_request'

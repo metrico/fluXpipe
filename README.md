@@ -8,6 +8,10 @@
 
 <br>
 
+### Demo
+Try our [serverless demo](https://fluxpipe.fly.dev/) to fall in love with fluxPipe
+
+
 ### Instructions
 Download a [binary release](https://github.com/lmangani/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source
 

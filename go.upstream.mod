@@ -3,7 +3,7 @@ module github.com/lmangani/fluxpipe
 go 1.18
 
 require (
-	github.com/influxdata/flux latest
+	github.com/influxdata/flux v0.191.0
 	github.com/labstack/echo/v4 v4.2.1
 )
 

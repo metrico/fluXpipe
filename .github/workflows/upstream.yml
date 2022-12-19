@@ -61,12 +61,12 @@ jobs:
     - name: Build Fluxpipe
       run: |
         sed -i 's:/usr/src:'`pwd`':' flux.pc
-        ./build.sh
+        go build -a -ldflags '-extldflags "-static -w -ldl"' -modfile=go.upstream.mod -o fluxpipe-server-upstream fluxpipe-server.go
         
     - name: Compress Fluxpipe
       run: |
-        strip fluxpipe-server
-        upx --lzma --overlay=strip fluxpipe-server
+        strip fluxpipe-server-upstream
+        upx --lzma --overlay=strip fluxpipe-server-upstream
         
     - id: tag_bump
       if: github.event_name != 'pull_request'
@@ -97,9 +97,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         release_config: |
-            fluxpipe-server
-        tag_name: ${{ env.VERSION }}
-        release_name: fluxpipe-upstream_${{ env.VERSION }}
+            fluxpipe-server-upstream
+        tag_name: upstream
+        release_name: fluxpipe-upstream
         draft: false
         prerelease: false
         overwrite: true   
@@ -120,4 +120,3 @@ jobs:
         push: true
         tags: |
            ghcr.io/metrico/fluxpipe-upstream:latest
-           ghcr.io/metrico/fluxpipe-upstream:${{ env.VERSION }}

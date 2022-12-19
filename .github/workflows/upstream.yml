@@ -61,8 +61,8 @@ jobs:
     - name: Build Fluxpipe
       run: |
         sed -i 's:/usr/src:'`pwd`':' flux.pc
-        go mod tidy
-        go get ./...
+        go mod tidy -modfile=go.upstream.mod 
+        go get -modfile=go.upstream.mod ./...
         go build -a -ldflags '-extldflags "-static -w -ldl"' -modfile=go.upstream.mod -o fluxpipe-server-upstream fluxpipe-server.go
         
     - name: Compress Fluxpipe

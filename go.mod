@@ -2,13 +2,8 @@ module github.com/lmangani/fluxpipe
 
 go 1.18
 
-replace (
-	github.com/influxdata/flux => github.com/adubovikov/flux v0.187.1
-	github.com/influxdata/flux v0.187.0 => github.com/adubovikov/flux v0.187.1
-)
-
 require (
-	github.com/influxdata/flux v0.187.0
+	github.com/influxdata/flux v0.191.0
 	github.com/labstack/echo/v4 v4.2.1
 )
 

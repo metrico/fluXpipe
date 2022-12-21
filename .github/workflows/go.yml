@@ -2,7 +2,7 @@ name: Build-n-Release
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, upstream ]
     paths-ignore:
       - '**.md'
       - '**.flux'

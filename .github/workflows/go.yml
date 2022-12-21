@@ -47,7 +47,7 @@ jobs:
       if: steps.cacheflux.outputs.cache-hit != 'true'
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
-        owner: 'adubovikov'
+        owner: 'influxdata'
         repository: 'flux'
         
     - name: Compile Flux
@@ -66,7 +66,7 @@ jobs:
     - name: Compress Fluxpipe
       run: |
         strip fluxpipe-server
-        upx fluxpipe-server
+        upx --lzma --overlay=strip fluxpipe-server
         
     - id: tag_bump
       if: github.event_name != 'pull_request'

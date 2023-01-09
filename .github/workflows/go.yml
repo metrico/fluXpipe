@@ -47,7 +47,7 @@ jobs:
       if: steps.cacheflux.outputs.cache-hit != 'true'
       uses: GuillaumeFalourd/clone-github-repo-action@v2
       with:
-        owner: 'adubovikov'
+        owner: 'influxdata'
         repository: 'flux'
         
     - name: Compile Flux

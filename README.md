@@ -9,7 +9,7 @@
 <br>
 
 ### Demo
-Try our [serverless demo](https://fluxpipe.fly.dev/) to fall in love with fluxPipe
+Try our [serverless demo](https://fluxpipe.fly.dev/) to fall in love with *flux* and *fluxPipe*
 
 
 ### Instructions
@@ -53,13 +53,12 @@ Usage with native **Grafana InfluxDB/Flux datasource** _(url + organization fiel
 
 ###### ⭐ ClickHouse SQL
 ```
-import "sql" 
+import "contrib/qxip/clickhouse"
 
-sql.from(
-  driverName: "clickhouse",
-  dataSourceName: "clickhouse://default:@clickhouse-host:9000/system",
+clickhouse.query(
+  url: "https://play@play.clickhouse.com",
   query: "SELECT database, total_rows FROM tables WHERE total_rows > 0"
-) 
+)
 |> rename(columns: {database: "_value", total_rows: "_data"})
 |> keep(columns: ["_value","_data"])
 ```

@@ -1,18 +1,9 @@
-import "experimental/json"
-import "experimental/http/requests"
-import "experimental/array"
+import "contrib/qxip/logql"
 
-query = "{type=\"clickhouse\"}"
-limit = "10"
-api = "http://cloki-server:3100/loki/api/v1"
-url = "${api}/query_range?limit=${limit}&query=${query}"
+option logql.defaultURL = "http://qryn:3100"
 
-response = requests.get(url: url)
-jsonData = json.parse(data: response.body)
-
-array.from(rows: jsonData.data.result[0].values
-|> array.map(
-    fn: (x) => ({ 
-        _time: time(v: uint(v: x[0] )),
-        _value: x[1]
-})))
+logql.query_range(
+     query: "rate({job=\"dummy-server\", method=\"DELETE\"}[5m])",
+     start: -1h,
+     end: now(),
+)

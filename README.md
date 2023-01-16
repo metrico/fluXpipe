@@ -128,17 +128,16 @@ Configure your Grafana instance with our public demo endpoint _(limited resource
 - [x] Fluxlib
   - [x] parser
   - [x] executor
-- [x] ClickHouse driver by @adubovikov
-  - [ ] driver tests
+- [x] Contribs
+  - [x] contrib/qxip/clickhouse
+  - [x] contrib/qxip/logql
+  - [x] contrib/qxip/hash
+  - [ ] contrib/qxip/secrets
 - [x] STDIN pipeline
 - [x] HTTP api
   - [x] plaintext
   - [x] json support
   - [x] web playground
-  - [ ] ENV secrets
-  - [ ] api doc
-
-
 
 
 

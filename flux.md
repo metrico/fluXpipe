@@ -492,3 +492,6 @@ csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
 
 ## Flux More
 Use the [Flux Documentation](https://docs.influxdata.com/flux/v0.x/) to proceed further into your journey.
+
+### Credits
+Based on [9 Minutes to Flux](https://github.com/influxdata/flux/blob/master/docs/user_docs/9-minutes-to-flux.md). Time saving by [FluxPipe](https://github.com/metrico/fluxpipe)

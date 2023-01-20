@@ -6,6 +6,8 @@
 
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
+Need a practical Flux introduction? Check out [3 Minutes to Flux](flux.md)
+
 <br>
 
 ### Demo

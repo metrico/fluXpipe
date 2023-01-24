@@ -118,8 +118,8 @@ func NewCustomDependencies() flux.Deps {
 
 func exec(inputString string) (string, string) {
 
-	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
-	ctx := NewCustomDependencies().Inject(context.Background())
+	ctx := flux.NewDefaultDependencies().Inject(context.Background())
+	// ctx := NewCustomDependencies().Inject(context.Background())
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)

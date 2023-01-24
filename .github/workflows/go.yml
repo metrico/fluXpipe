@@ -6,6 +6,13 @@ on:
     paths-ignore:
       - '**.md'
       - '**.flux'
+      - '**.yml'
+  pull_request:
+    branches: [ master, main ]
+    paths-ignore:
+      - '**.md'
+      - '**.flux'
+      - '**.yml'
 
 env:
   REGISTRY: ghcr.io

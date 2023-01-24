@@ -103,7 +103,7 @@ func postQuery(c echo.Context) error {
 }
 
 // CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
-CustomValidator:=url.PassValidator{}
+CustomValidator := url.PassValidator{}
 CustomDeps := WrappedDeps{
 	HTTPClient: http.NewLimitedDefaultClient(CustomValidator),
 	// Custom to having no filesystem, env secrets, and no url validation (always pass).

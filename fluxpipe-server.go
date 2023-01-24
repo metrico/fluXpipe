@@ -17,6 +17,11 @@ import (
 	"github.com/influxdata/flux/memory"
 	"github.com/influxdata/flux/csv"
 	"github.com/influxdata/flux/runtime"
+	
+	"github.com/influxdata/flux/dependency"
+	"github.com/influxdata/flux/dependencies/http"
+	"github.com/influxdata/flux/dependencies/secret"
+	"github.com/influxdata/flux/dependencies/url"
 
 	"io/ioutil"
 	"net/http"
@@ -100,7 +105,17 @@ func postQuery(c echo.Context) error {
 
 func exec(inputString string) (string, string) {
 
-	ctx := flux.NewDefaultDependencies().Inject(context.Background())
+	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
+	customValidator := url.PassValidator{}
+	customDeps := flux.WrappedDeps{
+		HTTPClient: http.NewLimitedDefaultClient(customValidator),	
+		FilesystemService: nil,
+		SecretService:     secret.EnvironmentSecretService{},
+		URLValidator:      customValidator,
+	}
+	
+	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
+	ctx := customDeps.Inject(context.Background())
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)

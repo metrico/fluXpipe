@@ -105,7 +105,6 @@ func postQuery(c echo.Context) error {
 
 func exec(inputString string) (string, string) {
 
-	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
 	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
 	customValidator := url.PassValidator{}
 	customDeps := flux.WrappedDeps{
@@ -114,6 +113,8 @@ func exec(inputString string) (string, string) {
 		SecretService:     secret.EnvironmentSecretService{},
 		URLValidator:      customValidator,
 	}
+	
+	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
 	ctx := customDeps.Inject(context.Background())
 	q, err := runQuery(ctx, inputString)
 	if err != nil {

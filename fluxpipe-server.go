@@ -2,37 +2,40 @@ package main
 
 import (
 	"bufio"
-	"os"
-	"context"
-	"fmt"
-	"strings"
 	"bytes"
-	"time"
-	"flag"
+	"context"
 	"encoding/json"
+	"flag"
+	"fmt"
+	"os"
+	"strings"
+	"time"
 
 	"github.com/influxdata/flux"
+	"github.com/influxdata/flux/csv"
 	_ "github.com/influxdata/flux/fluxinit/static"
 	"github.com/influxdata/flux/lang"
 	"github.com/influxdata/flux/memory"
-	"github.com/influxdata/flux/csv"
 	"github.com/influxdata/flux/runtime"
-	
+
+
 	_fluxhttp "github.com/influxdata/flux/dependencies/http"
 	"github.com/influxdata/flux/dependencies/secret"
 	"github.com/influxdata/flux/dependencies/url"
 
+	_ "embed"
 	"io/ioutil"
 	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	 _ "embed"
 )
 
 var APPNAME = "fluxpipe"
 
 //go:embed static/play.html
 var PLAY []byte
+
 //go:embed static/favicon.ico
 var FAVICON []byte
 
@@ -63,11 +66,11 @@ func postQuery(c echo.Context) error {
 
 	if strings.Contains(string(s), "buckets()") {
 		// fake bucket to make grafana happy
-		buckets := "#datatype,string,string,string,string,string,string,long\n"+
-			   "#default,_result,,,,,,\n" +
-			   ",result,table,name,id,organizationID,retentionPolicy,retentionPeriod\n"+
-			   ",_result,0,_fluxpipe,aa9f5aa08895152b,03dbe8db13d17000,,604800000000000\n"+
-			   "\n"
+		buckets := "#datatype,string,string,string,string,string,string,long\n" +
+			"#default,_result,,,,,,\n" +
+			",result,table,name,id,organizationID,retentionPolicy,retentionPeriod\n" +
+			",_result,0,_fluxpipe,aa9f5aa08895152b,03dbe8db13d17000,,604800000000000\n" +
+			"\n"
 		return c.String(http.StatusOK, buckets)
 	}
 
@@ -118,8 +121,20 @@ func NewCustomDependencies() flux.Deps {
 
 func exec(inputString string) (string, string) {
 
-	ctx := flux.NewDefaultDependencies().Inject(context.Background())
-	// ctx := NewCustomDependencies().Inject(context.Background())
+	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
+	customValidator := url.PassValidator{}
+	customDeps := flux.Deps{
+		Deps: flux.WrappedDeps{
+			HTTPClient:        _fluxhttp.NewLimitedDefaultClient(customValidator),
+			FilesystemService: nil,
+			SecretService:     secret.EnvironmentSecretService{},
+			URLValidator:      customValidator,
+		},
+	}
+
+	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
+	ctx := customDeps.Inject(context.Background())
+
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
@@ -140,7 +155,7 @@ func exec(inputString string) (string, string) {
 
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
-		return "", string(fmt.Sprintf(`{"code":"invalid","message":"%v"}`, q.Err() ))
+		return "", string(fmt.Sprintf(`{"code":"invalid","message":"%v"}`, q.Err()))
 
 	} else {
 		return buf.String(), ""
@@ -150,8 +165,8 @@ func exec(inputString string) (string, string) {
 func main() {
 
 	port := flag.String("port", "8086", "API port")
-	stdin  := flag.Bool("stdin", false, "STDIN mode")
-	cors  := flag.Bool("cors", true, "API cors mode")
+	stdin := flag.Bool("stdin", false, "STDIN mode")
+	cors := flag.Bool("cors", true, "API cors mode")
 	flag.Parse()
 
 	scanner := bufio.NewScanner((os.Stdin))
@@ -160,7 +175,7 @@ func main() {
 	if *stdin == true {
 
 		for scanner.Scan() {
-		        inputString = inputString + "\n" + scanner.Text()
+			inputString = inputString + "\n" + scanner.Text()
 		}
 		if err := scanner.Err(); err != nil {
 			fmt.Fprintln(os.Stderr, "reading standard input:", err)
@@ -184,11 +199,11 @@ func main() {
 		}
 
 		e.GET("/", func(c echo.Context) error {
-                        return c.Blob(http.StatusOK, "text/html", PLAY)
-                })
+			return c.Blob(http.StatusOK, "text/html", PLAY)
+		})
 		e.GET("/favicon.ico", func(c echo.Context) error {
-                        return c.Blob(http.StatusOK, "image/x-icon", FAVICON)
-                })
+			return c.Blob(http.StatusOK, "image/x-icon", FAVICON)
+		})
 
 		e.GET("/hello", func(c echo.Context) error {
 			return c.String(http.StatusOK, "|> FluxPIPE")
@@ -203,7 +218,6 @@ func main() {
 		e.POST("/query", postQuery)
 
 		fmt.Println("|> FluxPIPE")
-		e.Logger.Fatal(e.Start(":"+*port))
+		e.Logger.Fatal(e.Start(":" + *port))
 	}
 }
-

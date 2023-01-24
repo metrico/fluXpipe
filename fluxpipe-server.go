@@ -102,20 +102,18 @@ func postQuery(c echo.Context) error {
 	}
 }
 
-// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
-CustomValidator := url.PassValidator{}
-CustomDeps := WrappedDeps{
-	HTTPClient: http.NewLimitedDefaultClient(CustomValidator),
-	// Custom to having no filesystem, env secrets, and no url validation (always pass).
-	FilesystemService: nil,
-	SecretService:     secret.EnvironmentSecretService{},
-	URLValidator:      CustomValidator,
-}
-
 func exec(inputString string) (string, string) {
 
 	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
-	ctx := CustomDeps.Inject(context.Background())
+	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
+	customValidator := url.PassValidator{}
+	customDeps := flux.WrappedDeps{
+		HTTPClient: http.NewLimitedDefaultClient(CustomValidator),	
+		FilesystemService: nil,
+		SecretService:     secret.EnvironmentSecretService{},
+		URLValidator:      CustomValidator,
+	}
+	ctx := customDeps.Inject(context.Background())
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)

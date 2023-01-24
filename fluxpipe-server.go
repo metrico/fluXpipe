@@ -18,6 +18,7 @@ import (
 	"github.com/influxdata/flux/csv"
 	"github.com/influxdata/flux/runtime"
 	
+	"github.com/influxdata/flux/dependency"
 	"github.com/influxdata/flux/dependencies/http"
 	"github.com/influxdata/flux/dependencies/secret"
 	"github.com/influxdata/flux/dependencies/url"
@@ -108,10 +109,10 @@ func exec(inputString string) (string, string) {
 	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
 	customValidator := url.PassValidator{}
 	customDeps := flux.WrappedDeps{
-		HTTPClient: http.NewLimitedDefaultClient(CustomValidator),	
+		HTTPClient: http.NewLimitedDefaultClient(customValidator),	
 		FilesystemService: nil,
 		SecretService:     secret.EnvironmentSecretService{},
-		URLValidator:      CustomValidator,
+		URLValidator:      customValidator,
 	}
 	ctx := customDeps.Inject(context.Background())
 	q, err := runQuery(ctx, inputString)

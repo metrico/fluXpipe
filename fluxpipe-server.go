@@ -18,7 +18,6 @@ import (
 	"github.com/influxdata/flux/csv"
 	"github.com/influxdata/flux/runtime"
 	
-	"github.com/influxdata/flux/dependency"
 	_fluxhttp "github.com/influxdata/flux/dependencies/http"
 	"github.com/influxdata/flux/dependencies/secret"
 	"github.com/influxdata/flux/dependencies/url"
@@ -103,19 +102,24 @@ func postQuery(c echo.Context) error {
 	}
 }
 
+// NewCustomDependencies produces a Custom set of dependencies including EnvironmentSecretService.
+func NewCustomDependencies() flux.Deps {
+	validator := url.PassValidator{}
+	return flux.Deps{
+		Deps: flux.WrappedDeps{
+			HTTPClient: http.NewLimitedDefaultClient(validator),
+			// Default to having no filesystem, no secrets, and no url validation (always pass).
+			FilesystemService: nil,
+			SecretService:     secret.EnvironmentSecretService{},
+			URLValidator:      validator,
+		},
+	}
+}
+
 func exec(inputString string) (string, string) {
 
-	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
-	customValidator := url.PassValidator{}
-	customDeps := flux.WrappedDeps{
-		HTTPClient: _fluxhttp.NewLimitedDefaultClient(customValidator),	
-		FilesystemService: nil,
-		SecretService:     secret.EnvironmentSecretService{},
-		URLValidator:      customValidator,
-	}
-	
 	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
-	ctx := customDeps().Inject(context.Background())
+	ctx := NewCustomDependencies().Inject(context.Background())
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)

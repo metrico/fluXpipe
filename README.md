@@ -11,15 +11,15 @@ Need a practical Flux introduction? Check out [3 Minutes to Flux](flux.md)
 <br>
 
 ### Demo
-Try our [serverless demo](https://fluxpipe.fly.dev/) to fall in love with *flux* and *fluxPipe*
+Try our [serverless demo](https://fluxpipe.fly.dev/) to instantly fall in love with *flux*
 
 
 ### Instructions
-Download a [binary release](https://github.com/lmangani/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source
+Download a [binary release](https://github.com/metrico/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source
 
 #### 📦 Download Binary
 ```bash
-curl -fsSL github.com/lmangani/fluxpipe/releases/latest/download/fluxpipe-server -O \
+curl -fsSL github.com/metrico/fluxpipe/releases/latest/download/fluxpipe-server -O \
 && chmod +x fluxpipe-server
 ```
 ##### 🔌 Start Server w/ Options

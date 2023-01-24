@@ -2,7 +2,7 @@
 
 [![Build-n-Release](https://github.com/metrico/fluXpipe/actions/workflows/go.yml/badge.svg)](https://github.com/metrico/fluXpipe/actions/workflows/go.yml)
 
-**FluxPipe** is an *experimental* stand-alone **Flux API** for *ClickHouse* and other *embedded datasources*
+**FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*
 
 > [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 

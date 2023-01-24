@@ -107,7 +107,7 @@ func NewCustomDependencies() flux.Deps {
 	validator := url.PassValidator{}
 	return flux.Deps{
 		Deps: flux.WrappedDeps{
-			HTTPClient: http.NewLimitedDefaultClient(validator),
+			HTTPClient: _fluxhttp.NewLimitedDefaultClient(validator),
 			// Default to having no filesystem, no secrets, and no url validation (always pass).
 			FilesystemService: nil,
 			SecretService:     secret.EnvironmentSecretService{},

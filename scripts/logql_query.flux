@@ -1,11 +1,13 @@
 import "contrib/qxip/logql"
 
-option logql.defaultURL = "https://qryn:3100"
+option logql.defaultURL = "http://qryn:3100"
 
 logql.query_range(
-     query: "rate({type=\"syslog\"}[1m])",
-     start: -10m,
+     query: "rate({job=\"dummy-server\"}[1m])",
+     start: -15m,
      end: now(),
 )
-|> map(fn: (r) => ({r with timestamp_ns: time(v: uint(v: r.timestamp_ns)) }))
-|> sort(columns: ["timestamp_ns"])
+|> map(fn: (r) => ({r with _time: time(v: uint(v: r.timestamp_ns)), _value: float(v: r.value) }))
+|> drop(columns: ["timestamp_ns", "value"])
+|> sort(columns: ["_time"])
+|> group(columns: ["labels"])

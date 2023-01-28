@@ -75,6 +75,24 @@ clickhouse.query(
 
 ![image](https://user-images.githubusercontent.com/1423657/162428332-77d869a2-d02b-443d-a3ef-3df1fbf899f6.png)
 
+###### ⭐ LogQL 
+```
+import "contrib/qxip/logql"
+
+option logql.defaultURL = "http://qryn:3100"
+logql.query_range(
+     query: "rate({job=\"dummy-server\"}[5m])",
+     start: v.timeRangeStart, 
+     end: v.timeRangeStop
+)
+|> map(fn: (r) => ({r with _time: time(v: uint(v: r.timestamp_ns)), _value: float(v: r.value) }))
+|> drop(columns: ["timestamp_ns", "value"])
+|> sort(columns: ["_time"])
+|> group(columns: ["labels"])
+```
+![image](https://user-images.githubusercontent.com/1423657/215287132-dc8e18ca-25f8-40cd-a925-cc9f6c090be5.png)
+
+
 ###### ⭐ CURL POST
 Usage with curl
 

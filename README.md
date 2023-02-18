@@ -1,4 +1,4 @@
-# <img src="https://user-images.githubusercontent.com/1423657/219078413-1cb1d931-9cfc-4356-b987-ba2da3f38944.png" width=350 />
+# <img src="https://user-images.githubusercontent.com/1423657/219858019-fb29a306-b2d0-4697-98c6-33109c173b0e.png" width=350 />
 
 [![Build-n-Release](https://github.com/metrico/fluXpipe/actions/workflows/go.yml/badge.svg)](https://github.com/metrico/fluXpipe/actions/workflows/go.yml)
 

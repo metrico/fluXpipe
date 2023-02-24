@@ -61,7 +61,7 @@ jobs:
       if: steps.cacheflux.outputs.cache-hit != 'true'
       run: |
         cd flux
-        git checkout tags/v0.192.0
+        git checkout tags/v0.193.0
         go mod tidy
         go get ./...
         make

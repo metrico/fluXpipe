@@ -1,0 +1,9 @@
+FROM alpine as builder
+RUN apk add --allow-untrusted --update --no-cache curl ca-certificates
+WORKDIR /
+RUN curl -fsSL github.com/metrico/fluxpipe/releases/latest/download/fluxpipe-lambda -O && chmod +x fluxpipe-lambda
+
+FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /fluxpipe-lambda /fluxpipe-lambda
+CMD ["/fluxpipe-lambda"]

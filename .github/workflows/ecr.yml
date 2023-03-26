@@ -12,6 +12,8 @@ jobs:
    
     steps:
 
+    - name: Pull Latest
+      run: docker pull ghcr.io/metrico/fluxpipe-lambda:latest
     - name: Push to ECR
       id: ecr
       uses: jwalton/gh-ecr-push@v1.3.6

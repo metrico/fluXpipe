@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"strings"
 	"time"
+	"bytes"
 
 	"github.com/influxdata/flux"
 	"github.com/influxdata/flux/csv"
@@ -96,11 +95,12 @@ func exec(inputString string) (string, string) {
 }
 
 type FluxEvent struct {
-        Query string `json:"query"`
+        Flux string `json:"query"`
 }
 
 func HandleRequest(ctx context.Context, query FluxEvent) (string, error) {
-        return exec(name.Query)
+        buf, _ := exec(Flux.query)
+        return buf, nil
 }
 
 func main() {

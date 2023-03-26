@@ -95,11 +95,11 @@ func exec(inputString string) (string, string) {
 }
 
 type FluxEvent struct {
-        Flux string `json:"query"`
+        Query string `json:"flux"`
 }
 
-func HandleRequest(ctx context.Context, query FluxEvent) (string, error) {
-        buf, _ := exec(Flux.query)
+func HandleRequest(ctx context.Context, flux FluxEvent) (string, error) {
+        buf, _ := exec(flux.Query)
         return buf, nil
 }
 

@@ -103,11 +103,6 @@ func HandleRequest(ctx context.Context, flux FluxEvent) (string, error) {
         return buf, nil
 }
 
-func HandleFlux() (string, error) {
-	buf, _ := exec(flux.Query)
-        return buf, nil
-}
-
 func main() {
-        lambda.Start(HandleFlux)
+        lambda.Start(HandleRequest)
 }

@@ -74,6 +74,7 @@ jobs:
     - name: Compress Fluxpipe
       run: |
         strip fluxpipe-server
+        strip fluxpipe-lambda
         upx fluxpipe-server
         
     - id: tag_bump
@@ -106,6 +107,7 @@ jobs:
       with:
         release_config: |
             fluxpipe-server
+            fluxpipe-lambda
         tag_name: ${{ env.VERSION }}
         release_name: fluxpipe_${{ env.VERSION }}
         draft: false
@@ -120,7 +122,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Docker Build and push
+    - name: Docker Build and push (server)
       if: github.event_name != 'pull_request'
       uses: docker/build-push-action@v3.0.0
       with:
@@ -129,3 +131,15 @@ jobs:
         tags: |
            ghcr.io/metrico/fluxpipe:latest
            ghcr.io/metrico/fluxpipe:${{ env.VERSION }}
+           
+    - name: Docker Build and push (lambda)
+      if: github.event_name != 'pull_request'
+      uses: docker/build-push-action@v3.0.0
+      with:
+        context: .
+        file: Dockerfile.lambda
+        push: true
+        tags: |
+           ghcr.io/metrico/fluxpipe-lambda:latest
+           ghcr.io/metrico/fluxpipe-lambda:${{ env.VERSION }}
+

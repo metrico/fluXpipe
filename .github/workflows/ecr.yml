@@ -22,4 +22,4 @@ jobs:
         secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: us-east-1
         local-image: ghcr.io/metrico/fluxpipe-lambda:latest
-        image: fluxpipe-lambda:latest
+        image: public.ecr.aws/w0a4c1j8/fluxpipe-lambda:latest

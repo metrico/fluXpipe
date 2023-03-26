@@ -1,0 +1,23 @@
+name: Deploy to ECR
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  
+  build:
+    
+    name: Publish Image
+    runs-on: ubuntu-latest
+   
+    steps:
+
+    - name: Push to ECR
+      id: ecr
+      uses: jwalton/gh-ecr-push@v1.3.6
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: us-east-1
+        local-image: ghcr.io/metrico/fluxpipe-lambda:latest
+        image: fluxpipe-lambda:latest

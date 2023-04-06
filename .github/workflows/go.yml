@@ -1,18 +1,8 @@
 name: Build-n-Release
 
 on:
-  push:
-    branches: [ main, master ]
-    paths-ignore:
-      - '**.md'
-      - '**.flux'
-      - '**.yml'
-  pull_request:
-    branches: [ master, main ]
-    paths-ignore:
-      - '**.md'
-      - '**.flux'
-      - '**.yml'
+  release:
+    types: [created]
 
 env:
   REGISTRY: ghcr.io
@@ -61,7 +51,7 @@ jobs:
       if: steps.cacheflux.outputs.cache-hit != 'true'
       run: |
         cd flux
-        git checkout tags/v0.193.0
+        git checkout tags/v0.194.0
         go mod tidy
         go get ./...
         make

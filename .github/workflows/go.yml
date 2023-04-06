@@ -67,16 +67,6 @@ jobs:
         strip fluxpipe-lambda
         upx fluxpipe-server
         
-    - id: tag_bump
-      if: github.event_name != 'pull_request'
-      name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.52.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEFAULT_BUMP: patch
-        BRANCH: main
-        WITH_V: true
-        
     - name: Get Timestamp
       if: github.event_name != 'pull_request'
       id: time
@@ -86,7 +76,7 @@ jobs:
         format: 'YYYYMMDDHHmmss'
         
     - run: |
-        echo "VERSION=${{ steps.tag_bump.outputs.new_tag }}" >> $GITHUB_ENV
+        echo "VERSION=${{  github.ref_name }}" >> $GITHUB_ENV
         echo "TIME=${{ steps.time.outputs.time }}" >> $GITHUB_ENV
     
     - name: Upload release

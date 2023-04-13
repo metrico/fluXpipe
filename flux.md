@@ -1,7 +1,7 @@
 # :rocket: 3 Minutes to Flux
 [Flux](https://github.com/influxdata/flux) is an open source functional data scripting language designed for _querying, analyzing, and acting on data_. Flux supports multiple data source types, including Time series databases _(such as InfluxDB)_, Relational SQL databases _(such as MySQL, PgSQL or ClickHouse)_, CSV and many more. 
 
-Flux unifies code for querying, processing, writing, and acting on data into a single syntax. The language is designed to be usable, readable, flexible, composable, testable, contributable, and shareable.
+Flux unifies code for querying, processing, writing, and acting on data into a single syntax.
 
 ## Flux
 Open the [Fluxpipe](https://fluxpipe.fly.dev) public Data Explorer. _No Grafana or InfluxDB needed._<br>

@@ -86,7 +86,7 @@ func postQuery(c echo.Context) error {
 			if err != nil {
 				c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
 				c.Response().Header().Set("x-platform-error-code", "invalid")
-				return c.String(400, fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error())
+				return c.String(400, fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error()))
 			} else {
 				return c.String(http.StatusOK, res)
 			}
@@ -98,7 +98,7 @@ func postQuery(c echo.Context) error {
 		if err != nil {
 			c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
 			c.Response().Header().Set("x-platform-error-code", "invalid")
-			return c.String(400, fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error())
+			return c.String(400, fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error()))
 		} else {
 			return c.String(http.StatusOK, res)
 		}

@@ -256,7 +256,7 @@ import "experimental/csv"
 csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
  
 |> filter(fn: (r) => r._measurement == "average_temperature")
-|> map(fn: (r) => ({r with celsius: ((r._value - 32.0) * 5.0 / 9.0)} ))
+|> map(fn: (r) => ({r with celsius: (( float(v: r._value) - 32.0) * 5.0 / 9.0)} ))
 ```
 
 <details>

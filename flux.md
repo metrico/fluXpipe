@@ -10,7 +10,7 @@ Open the [Fluxpipe](https://fluxpipe.fly.dev) public Data Explorer. _No Grafana 
 <img src="https://user-images.githubusercontent.com/1423657/197345705-10dcc36d-53ce-41d8-95b9-59b2f18e9f2d.png">
 <a/>
 
-Paste the following code into the script editor, and click **run**.
+Paste the following code into the script editor, and click **run**. _([preloaded query](https://fluxpipe.fly.dev/?user=default#aW1wb3J0ICJleHBlcmltZW50YWwvY3N2Igpjc3YuZnJvbSh1cmw6ICJodHRwczovL2luZmx1eC10ZXN0ZGF0YS5zMy5hbWF6b25hd3MuY29tL25vYWEuY3N2Iik=))_
 
 ```flux
 import "experimental/csv"
@@ -37,6 +37,9 @@ csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
 |> filter(fn: (r) => r._measurement == "average_temperature")
 ```
 
+_[preloaded query](https://fluxpipe.fly.dev/?user=default#aW1wb3J0ICJleHBlcmltZW50YWwvY3N2Igpjc3YuZnJvbSh1cmw6ICJodHRwczovL2luZmx1eC10ZXN0ZGF0YS5zMy5hbWF6b25hd3MuY29tL25vYWEuY3N2IikKIAp8PiByYW5nZShzdGFydDogMjAxOS0wOS0xN1QxNjowMDowMFopCnw+IGZpbHRlcihmbjogKHIpID0+IHIuX21lYXN1cmVtZW50ID09ICJhdmVyYWdlX3RlbXBlcmF0dXJlIik=)_
+ 
+ 
 Scrolling through the data, you can see that the results are in a set of tables, one table each, the difference being that each table is from a different location.
 Notice the table column and the location column.
 Group Keys
@@ -135,6 +138,8 @@ csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
 |> filter(fn: (r) => r._measurement == "average_temperature")
 |> mean()
 ```
+ 
+_[preloaded query](https://fluxpipe.fly.dev/?user=default#aW1wb3J0ICJleHBlcmltZW50YWwvY3N2Igpjc3YuZnJvbSh1cmw6ICJodHRwczovL2luZmx1eC10ZXN0ZGF0YS5zMy5hbWF6b25hd3MuY29tL25vYWEuY3N2IikKIAp8PiByYW5nZShzdGFydDogMjAxOS0wOS0wMlQxMjo0NDowMFopCnw+IGZpbHRlcihmbjogKHIpID0+IHIuX21lYXN1cmVtZW50ID09ICJhdmVyYWdlX3RlbXBlcmF0dXJlIikKfD4gbWVhbigp)_
 
 Now notice that there are still the same number of tables as before, but each table has a single row, where the _value column is the mean.
 
@@ -167,6 +172,8 @@ csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
 |> drop(columns: ["location"])
 ```
 
+_[preloaded query](https://fluxpipe.fly.dev/?user=default#aW1wb3J0ICJleHBlcmltZW50YWwvY3N2Igpjc3YuZnJvbSh1cmw6ICJodHRwczovL2luZmx1eC10ZXN0ZGF0YS5zMy5hbWF6b25hd3MuY29tL25vYWEuY3N2IikKIAp8PiByYW5nZShzdGFydDogMjAxOS0wOS0xN1QxNjowMDowMFopCnw+IGZpbHRlcihmbjogKHIpID0+IHIuX21lYXN1cmVtZW50ID09ICJhdmVyYWdlX3RlbXBlcmF0dXJlIikKfD4gZHJvcChjb2x1bW5zOiBbImxvY2F0aW9uIl0p)_
+ 
 Notice that the tables column is different, because Flux is no longer grouping on that columns:
 
 <details>
@@ -258,6 +265,8 @@ csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
 |> filter(fn: (r) => r._measurement == "average_temperature")
 |> map(fn: (r) => ({r with celsius: (( float(v: r._value) - 32.0) * 5.0 / 9.0)} ))
 ```
+ 
+_[preloaded query](https://fluxpipe.fly.dev/?user=default#aW1wb3J0ICJleHBlcmltZW50YWwvY3N2Igpjc3YuZnJvbSh1cmw6ICJodHRwczovL2luZmx1eC10ZXN0ZGF0YS5zMy5hbWF6b25hd3MuY29tL25vYWEuY3N2IikKIAp8PiBmaWx0ZXIoZm46IChyKSA9PiByLl9tZWFzdXJlbWVudCA9PSAiYXZlcmFnZV90ZW1wZXJhdHVyZSIpCnw+IG1hcChmbjogKHIpID0+ICh7ciB3aXRoIGNlbHNpdXM6ICgoIGZsb2F0KHY6IHIuX3ZhbHVlKSAtIDMyLjApICogNS4wIC8gOS4wKX0gKSk=)_
 
 <details>
   <summary>Expand Results</summary>
@@ -382,6 +391,8 @@ csv.from(url: "https://influx-testdata.s3.amazonaws.com/noaa.csv")
 |> filter(fn: (r) => r._measurement == "average_temperature")
 |> window(every: 1d)
 ```
+ 
+_[preloaded query](https://fluxpipe.fly.dev/?user=default#aW1wb3J0ICJleHBlcmltZW50YWwvY3N2Igpjc3YuZnJvbSh1cmw6ICJodHRwczovL2luZmx1eC10ZXN0ZGF0YS5zMy5hbWF6b25hd3MuY29tL25vYWEuY3N2IikKIAp8PiByYW5nZShzdGFydDogMjAxOS0wMS0wMVQwMDowMDowMFopCnw+IGZpbHRlcihmbjogKHIpID0+IHIuX21lYXN1cmVtZW50ID09ICJhdmVyYWdlX3RlbXBlcmF0dXJlIikKfD4gd2luZG93KGV2ZXJ5OiAxZCk=)_
 
 <details>
   <summary>Expand Results</summary>

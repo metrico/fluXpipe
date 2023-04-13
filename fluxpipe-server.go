@@ -155,7 +155,7 @@ func exec(inputString string) (string, error) {
 
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
-		return "", fmt.Errorf(q.Err())
+		return "", q.Err()
 
 	} else {
 		return buf.String(), nil

@@ -47,13 +47,6 @@ Fluxpipe embeds a playground interface to instantly execute queries _(borrowed f
 
 <br>
 
-#### Secrets
-Flux builds using `EnvironmentSecretService` accessing system environment variables from flux scripts.
-```
-import "influxdata/influxdb/secrets"
-key = secrets.get(key: "ENV_SECRET")
-```
-
 #### HTTP API
 Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients
 
@@ -110,6 +103,13 @@ curl -XPOST localhost:8086/api/v2/query -sS \
 ,,0,2022-04-01T00:00:00Z,1
 ,,0,2022-04-01T00:00:36Z,2
 ,,0,2022-04-01T00:01:12Z,3
+```
+
+#### Secrets
+Flux builds using `EnvironmentSecretService` accessing system environment variables from flux scripts.
+```
+import "influxdata/influxdb/secrets"
+key = secrets.get(key: "ENV_SECRET")
 ```
 
 ------

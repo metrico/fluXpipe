@@ -41,7 +41,7 @@ docker run -ti --rm -p 8086:8086 ghcr.io/metrico/fluxpipe:latest
 💡 _Check out the [scripts](scripts) folder for working examples_
 
 ### Playground
-Fluxpipe embeds a playground interface to instantly execute queries _(borrowed from ClickHouse)_
+Fluxpipe embeds a playground interface to instantly execute queries _(borrowed from ClickHouse [^2])_
 
 <a href="https://fluxpipe.fly.dev"><img src="https://user-images.githubusercontent.com/1423657/231785057-c1762c65-7c30-483b-a551-57c316caee88.png"></a>
 
@@ -169,3 +169,4 @@ Configure your Grafana instance with our public demo endpoint _(limited resource
 
 
 [^1]: Project is not affiliated or endorsed by Influxdata or Grafana Labs. All rights belong to their respective owners.
+[^2]: Used under Apache2 terms. Project is not affiliated or endorsed by ClickHouse Inc. All rights belong to their respective owners.

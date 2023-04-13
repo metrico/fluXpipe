@@ -83,10 +83,10 @@ func postQuery(c echo.Context) error {
 			q := json_map["query"]
 			query := fmt.Sprintf("%v", q)
 			res, err := exec(query)
-			if len(err) > 0 {
+			if err != nil {
 				c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
 				c.Response().Header().Set("x-platform-error-code", "invalid")
-				return c.String(400, err)
+				return c.String(400, fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error())
 			} else {
 				return c.String(http.StatusOK, res)
 			}
@@ -95,10 +95,10 @@ func postQuery(c echo.Context) error {
 	} else {
 
 		res, err := exec(string(s))
-		if len(err) > 0 {
+		if err != nil {
 			c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
 			c.Response().Header().Set("x-platform-error-code", "invalid")
-			return c.String(400, err)
+			return c.String(400, fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error())
 		} else {
 			return c.String(http.StatusOK, res)
 		}
@@ -119,7 +119,7 @@ func NewCustomDependencies() flux.Deps {
 	}
 }
 
-func exec(inputString string) (string, string) {
+func exec(inputString string) (string, error) {
 
 	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
 	customValidator := url.PassValidator{}
@@ -138,7 +138,7 @@ func exec(inputString string) (string, string) {
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
-		return "", string(fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err))
+		return "",  err
 	}
 
 	results := flux.NewResultIteratorFromQuery(q)
@@ -148,17 +148,17 @@ func exec(inputString string) (string, string) {
 	encoder := csv.NewMultiResultEncoder(csv.DefaultEncoderConfig())
 
 	if _, err := encoder.Encode(buf, results); err != nil {
-		panic(err)
+		return "", err
 	}
 
 	q.Done()
 
 	if q.Err() != nil {
 		fmt.Println("unexpected error from query execution: %s", q.Err())
-		return "", string(fmt.Sprintf(`{"code":"invalid","message":"%v"}`, q.Err()))
+		return "", fmt.Errorf(q.Err())
 
 	} else {
-		return buf.String(), ""
+		return buf.String(), nil
 	}
 }
 
@@ -181,7 +181,12 @@ func main() {
 			fmt.Fprintln(os.Stderr, "reading standard input:", err)
 		}
 
-		buf, _ := exec(inputString)
+		buf, err := exec(inputString)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "we have some error: ", err)
+			return
+		}
+		
 		fmt.Println(strings.Replace(buf, "\r\n", "\n", -1))
 
 	} else {

@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/aws/aws-lambda-go v1.13.3
-	github.com/influxdata/flux v0.194.0
+	github.com/influxdata/flux v0.194.1
 	github.com/labstack/echo/v4 v4.2.1
 )
 

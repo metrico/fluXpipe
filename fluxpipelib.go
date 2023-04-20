@@ -1,41 +1,41 @@
 package main
 
 import (
-    "C"
-    "bufio"
-	  "bytes"
-	  "context"
-	  "encoding/json"
-	  "flag"
-	  "fmt"
-	  "os"
-	  "strings"
-	  "time"
+	"C"
+	"bufio"
+	"bytes"
+	"context"
+	"encoding/json"
+	"flag"
+	"fmt"
+	"os"
+	"strings"
+	"time"
 
-	  "github.com/influxdata/flux"
-	  "github.com/influxdata/flux/csv"
-	  _ "github.com/influxdata/flux/fluxinit/static"
-	  "github.com/influxdata/flux/lang"
-	  "github.com/influxdata/flux/memory"
-	  "github.com/influxdata/flux/runtime"
-  
-	  _fluxhttp "github.com/influxdata/flux/dependencies/http"
-	  "github.com/influxdata/flux/dependencies/secret"
-	  "github.com/influxdata/flux/dependencies/url"
+	"github.com/influxdata/flux"
+	"github.com/influxdata/flux/csv"
+	_ "github.com/influxdata/flux/fluxinit/static"
+	"github.com/influxdata/flux/lang"
+	"github.com/influxdata/flux/memory"
+	"github.com/influxdata/flux/runtime"
 
-	  _ "embed"
-	  "io/ioutil"
-	  "net/http"
+	_fluxhttp "github.com/influxdata/flux/dependencies/http"
+	"github.com/influxdata/flux/dependencies/secret"
+	"github.com/influxdata/flux/dependencies/url"
 
-	  "github.com/labstack/echo/v4"
-	  "github.com/labstack/echo/v4/middleware"
+	_ "embed"
+	"io/ioutil"
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
-# SHARED
-# CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipe.a fluxpipelib.go
+// SHARED
+// # CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipe.a fluxpipelib.go
 
-# STATIC
-# CGO_ENABLED=1 go build -buildmode=c-archive -o fluxpipe.a fluxpipelib.go
+// STATIC
+// # CGO_ENABLED=1 go build -buildmode=c-archive -o fluxpipe.a fluxpipelib.go
 
 var APPNAME = "fluxpipe-library"
 
@@ -86,7 +86,7 @@ func exec(inputString string) (string, error) {
 	q, err := runQuery(ctx, inputString)
 	if err != nil {
 		fmt.Println("unexpected error while creating query: %s", err)
-		return "",  err
+		return "", err
 	}
 
 	results := flux.NewResultIteratorFromQuery(q)
@@ -111,16 +111,16 @@ func exec(inputString string) (string, error) {
 }
 
 type FluxEvent struct {
-        Query string `json:"flux"`
+	Query string `json:"flux"`
 }
 
 //export Query
 func Query(query string) string {
-    res, err := exec(query)
-    if err != nil {
-        return fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error())
-    }
-    return res
+	res, err := exec(query)
+	if err != nil {
+		return fmt.Sprintf(`{"code":"invalid","message":"%v"}`, err.Error())
+	}
+	return res
 }
 
 func main() {}

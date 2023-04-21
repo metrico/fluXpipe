@@ -65,6 +65,7 @@ jobs:
       run: |
         strip fluxpipe-server
         strip fluxpipe-lambda
+        strip fluxpipelib.a
         upx fluxpipe-server
         
     - name: Get Timestamp
@@ -88,6 +89,7 @@ jobs:
         release_config: |
             fluxpipe-server
             fluxpipe-lambda
+            fluxpipelib.a
         tag_name: ${{ env.VERSION }}
         release_name: fluxpipe_${{ env.VERSION }}
         draft: false

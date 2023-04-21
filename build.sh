@@ -9,4 +9,4 @@ go build -a -ldflags '-extldflags "-static -w -ldl"' -o fluxpipe-lambda fluxpipe
 
 echo "Building fluxpipe-lib ..."
 CGO_ENABLED=1 go build -buildmode=c-archive -o fluxpipelib.a fluxpipelib.go
-CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipelib.dylib fluxpipelib.go
+# CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipelib.dylib fluxpipelib.go

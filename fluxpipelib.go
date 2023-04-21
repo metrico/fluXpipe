@@ -2,14 +2,9 @@ package main
 
 import (
 	"C"
-	"bufio"
 	"bytes"
 	"context"
-	"encoding/json"
-	"flag"
 	"fmt"
-	"os"
-	"strings"
 	"time"
 
 	"github.com/influxdata/flux"
@@ -22,19 +17,10 @@ import (
 	_fluxhttp "github.com/influxdata/flux/dependencies/http"
 	"github.com/influxdata/flux/dependencies/secret"
 	"github.com/influxdata/flux/dependencies/url"
-
-	_ "embed"
-	"io/ioutil"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
-// SHARED
-// # CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipe.a fluxpipelib.go
 
-// STATIC
+// # CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipe.a fluxpipelib.go
 // # CGO_ENABLED=1 go build -buildmode=c-archive -o fluxpipe.a fluxpipelib.go
 
 var APPNAME = "fluxpipe-library"
@@ -53,7 +39,6 @@ func runQuery(ctx context.Context, script string) (flux.Query, error) {
 	return q, nil
 }
 
-// NewCustomDependencies produces a Custom set of dependencies including EnvironmentSecretService.
 func NewCustomDependencies() flux.Deps {
 	validator := url.PassValidator{}
 	return flux.Deps{

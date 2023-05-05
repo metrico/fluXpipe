@@ -11,8 +11,13 @@ Need a practical Flux introduction? Check out the [official page](https://www.in
 <br>
 
 ### Demo
-Try our [serverless demo](https://fluxpipe.fly.dev/) to instantly fall in love with *flux*
+Try our [serverless demo](https://fluxpipe.fly.dev/) or launch your own instance to instantly fall in love with *flux*
 
+<br> 
+
+<a href="https://flyctl.sh/shell?repo=metrico/fluxpipe" target="_blank">
+  <img src="https://user-images.githubusercontent.com/1423657/236479471-a1cb0484-dfd3-4dc2-8d62-121debd7faa3.png" width=300>
+</a>
 
 ### Instructions
 Download a [binary release](https://github.com/metrico/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source

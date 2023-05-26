@@ -385,8 +385,8 @@ github.com/hudl/fargo v1.3.0/go.mod h1:y3CKSmjA+wD2gak7sUSXTAoopbhU08POFhmITJgmK
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
-github.com/influxdata/flux v0.194.2 h1:yOWLqFlBeTZJ3myFURZT8hLLKEXrstPk/DfQP0ETEXg=
-github.com/influxdata/flux v0.194.2/go.mod h1:hAo8pb/Rxp6afj8/roEzxANO5PNVObAdXtv2dBp1E6U=
+github.com/influxdata/flux v0.194.3 h1:3PKCi41NrUfFSz3Dp2Rt2Rs+bREP9VPRgrq8H14Ymag=
+github.com/influxdata/flux v0.194.3/go.mod h1:hAo8pb/Rxp6afj8/roEzxANO5PNVObAdXtv2dBp1E6U=
 github.com/influxdata/gosnowflake v1.6.9 h1:BhE39Mmh8bC+Rvd4QQsP2gHypfeYIH1wqW1AjGWxxrE=
 github.com/influxdata/gosnowflake v1.6.9/go.mod h1:9W/BvCXOKx2gJtQ+jdi1Vudev9t9/UDOEHnlJZ/y1nU=
 github.com/influxdata/influxdb-client-go/v2 v2.3.1-0.20210518120617-5d1fff431040 h1:MBLCfcSsUyFPDJp6T7EoHp/Ph3Jkrm4EuUKLD2rUWHg=

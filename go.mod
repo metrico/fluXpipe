@@ -85,6 +85,7 @@ require (
 	github.com/segmentio/kafka-go v0.1.0 // indirect
 	github.com/sergi/go-diff v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/stretchr/objx v0.4.0 // indirect
 	github.com/uber-go/tally v3.3.15+incompatible // indirect
 	github.com/uber/athenadriver v1.1.4 // indirect
 	github.com/uber/jaeger-client-go v2.28.0+incompatible // indirect

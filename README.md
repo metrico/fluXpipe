@@ -4,7 +4,7 @@
 
 **FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*
 
-> [Flux](https://github.com/influxdata/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
+> [Flux](https://github.com/InfluxCommunity/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
 
 Need a practical Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/) or [3 Minutes to Flux](flux.md)
 

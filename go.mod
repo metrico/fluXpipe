@@ -8,6 +8,8 @@ require (
 	github.com/labstack/echo/v4 v4.2.1
 )
 
+replace github.com/influxdata/influxdb-iox-client-go/v2 v2.0.0-beta.2 => github.com/metrico/influxdb-iox-client-go/v2 v2.0.0-beta.3
+
 require (
 	cloud.google.com/go v0.82.0 // indirect
 	cloud.google.com/go/bigquery v1.8.0 // indirect

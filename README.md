@@ -58,6 +58,20 @@ Fluxpipe serves a simple REST API loosely compatible with existing flux integrat
 ##### Grafana Flux [^1]
 Usage with native **Grafana InfluxDB/Flux datasource** _(url + organization fields are required!)_
 
+###### ⭐ FlightSQL
+```
+import "sql"
+
+sql.from(
+    driverName: "influxdb-iox",
+    dataSourceName: "iox://iox-server:443/qryn_logs",
+    query: "SELECT level, sender, body FROM logs WHERE body LIKE '%DELETE%' limit 10",
+)
+```
+
+![image](https://github.com/metrico/fluXpipe/assets/1423657/b6c2dcbe-079b-4329-9fee-a8601a8c853c)
+
+
 ###### ⭐ ClickHouse SQL
 ```
 import "contrib/qxip/clickhouse"

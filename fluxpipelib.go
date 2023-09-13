@@ -7,16 +7,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/influxdata/flux"
-	"github.com/influxdata/flux/csv"
-	_ "github.com/influxdata/flux/fluxinit/static"
-	"github.com/influxdata/flux/lang"
-	"github.com/influxdata/flux/memory"
-	"github.com/influxdata/flux/runtime"
+	"github.com/InfluxCommunity/flux"
+	"github.com/InfluxCommunity/flux/csv"
+	_ "github.com/InfluxCommunity/flux/fluxinit/static"
+	"github.com/InfluxCommunity/flux/lang"
+	"github.com/InfluxCommunity/flux/memory"
+	"github.com/InfluxCommunity/flux/runtime"
 
-	_fluxhttp "github.com/influxdata/flux/dependencies/http"
-	"github.com/influxdata/flux/dependencies/secret"
-	"github.com/influxdata/flux/dependencies/url"
+	_fluxhttp "github.com/InfluxCommunity/flux/dependencies/http"
+	"github.com/InfluxCommunity/flux/dependencies/secret"
+	"github.com/InfluxCommunity/flux/dependencies/url"
 )
 
 

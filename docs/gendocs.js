@@ -96,7 +96,7 @@ function generateSidebarIndex(jsonInput) {
 
   // Generate sidebar entries with light nesting
   for (const section in sidebarMap) {
-    sidebarIndex += `- [${section}](/${section}.md)\n`;
+    sidebarIndex += `- ${section}\n`;
     sidebarMap[section].forEach(functionInfo => {
       const { name, path } = functionInfo;
       sidebarIndex += `  - [${name}](${path}.md)\n`;

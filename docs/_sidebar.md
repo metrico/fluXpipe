@@ -18,6 +18,7 @@
   - [influxdb](contrib/jsternberg/influxdb.md)
   - [clickhouse](contrib/qxip/clickhouse.md)
   - [hash](contrib/qxip/hash.md)
+  - [iox](contrib/qxip/iox.md)
   - [logql](contrib/qxip/logql.md)
   - [bigpanda](contrib/rhajek/bigpanda.md)
   - [opsgenie](contrib/sranka/opsgenie.md)

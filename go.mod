@@ -3,7 +3,7 @@ module github.com/metrico/fluxpipe
 go 1.18
 
 require (
-	github.com/InfluxCommunity/flux v0.195.0
+	github.com/InfluxCommunity/flux v0.195.1
 	github.com/aws/aws-lambda-go v1.13.3
 	github.com/labstack/echo/v4 v4.2.1
 )

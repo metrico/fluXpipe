@@ -56,9 +56,13 @@ Fluxpipe embeds a playground interface to instantly execute queries _(borrowed f
 Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients
 
 ##### Grafana Flux [^1]
-Usage with native **Grafana InfluxDB/Flux datasource** _(url + organization fields are required!)_
+Fluxpipe is compatible with the native **Grafana InfluxDB/Flux datasource** _(url + organization fields are required!)_
 
-###### ⭐ FlightSQL
+<br>
+
+##### ⭐ FlightSQL
+###### SQL
+You can query InfluxDB 3.0 IOx with raw SQL using the native `sql.from` handler
 ```
 import "sql"
 
@@ -70,6 +74,37 @@ sql.from(
 ```
 
 ![image](https://github.com/metrico/fluXpipe/assets/1423657/b6c2dcbe-079b-4329-9fee-a8601a8c853c)
+
+
+###### Flux
+You can query InfluxDB 3.0 IOx with Flux using the `iox.from` handler 
+```
+> import "contrib/qxip/iox"
+ iox.from(
+     bucket: "test",
+     host: "eu-central-1-1.aws.cloud2.influxdata.com:443",
+     token: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+     limit: "10",
+     columns: "time, level, sender",
+     table: "logs",
+     start: -100d,
+ )
+```
+```
+                    _time:time            level:string           sender:string
+------------------------------  ----------------------  ----------------------
+2023-08-31T00:00:00.091362490Z                    info                 logtest
+2023-08-31T00:00:00.091380034Z                    info                 logtest
+2023-08-31T00:00:00.091381374Z                    info                 logtest
+2023-08-31T00:00:00.091382470Z                    info                 logtest
+2023-08-31T00:00:00.091383354Z                    info                 logtest
+2023-08-31T00:00:00.091384514Z                    info                 logtest
+2023-08-31T00:00:00.091385496Z                    info                 logtest
+2023-08-31T00:00:00.091387718Z                    info                 logtest
+2023-08-31T00:00:00.091389187Z                    info                 logtest
+2023-08-31T00:00:00.091390136Z                    info                 logtest
+```
+
 
 
 ###### ⭐ ClickHouse SQL

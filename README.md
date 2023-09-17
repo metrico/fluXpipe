@@ -13,11 +13,11 @@ Need a practical Flux introduction? Check out the [official page](https://www.in
 ### Demo
 Try our [serverless demo](https://fluxpipe.fly.dev/) or launch your own instance to instantly fall in love with *flux*
 
-<br> 
-
 <a href="https://flyctl.sh/shell?repo=metrico/fluxpipe" target="_blank">
   <img src="https://user-images.githubusercontent.com/1423657/236479471-a1cb0484-dfd3-4dc2-8d62-121debd7faa3.png" width=300>
 </a>
+
+<br>
 
 ### Instructions
 Download a [binary release](https://github.com/metrico/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source
@@ -203,6 +203,13 @@ cat scripts/sql.flux | ./fluxpipe-server -stdin
 ### Grafana Datasource
 Configure your Grafana instance with our public demo endpoint _(limited resources)_
 ![image](https://user-images.githubusercontent.com/1423657/185748494-0c6a95da-d112-46ab-b9db-b09438b63740.png)
+
+
+### Documentation
+**Flux**(pipe) is built using the [InfluxCommunity/flux](https://github.com/InfluxCommunity/flux) fork which contains additional features and contributions.<br>
+All the standard and additional functions available in Fluxpipe are included in the [Flux community documentation](https://metrico.github.io/fluXpipe/)
+
+<br>
 
 
 #### Status

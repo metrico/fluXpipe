@@ -204,7 +204,8 @@ cat scripts/sql.flux | ./fluxpipe-server -stdin
 
 ### Grafana Datasource
 Configure your Grafana instance with our public demo endpoint _(limited resources)_
-![image](https://user-images.githubusercontent.com/1423657/185748494-0c6a95da-d112-46ab-b9db-b09438b63740.png)
+![image](https://github.com/metrico/fluXpipe/assets/1423657/c100050a-49a6-4788-86af-15eb7e59c5d1)
+
 
 
 ### Documentation

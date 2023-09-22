@@ -2,13 +2,15 @@
 
 [![Build-n-Release](https://github.com/metrico/fluXpipe/actions/workflows/go.yml/badge.svg)](https://github.com/metrico/fluXpipe/actions/workflows/go.yml)
 
-**FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*
+**FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*<br>
+Execute your Flux scripts locally, in serverless functions or anywhere else - _decoupled from the data and database._<br>
 
-> [Flux](https://github.com/InfluxCommunity/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
-
-Need a practical Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/) or [3 Minutes to Flux](flux.md)
+_Fluxpipe runs best at 141,622Km/h_ and is compatible with **InfluxDB 3.0 / IOx, ClickHouse** and _many new datasources!_
 
 <br>
+
+> InfluxDB [Flux](https://github.com/InfluxCommunity/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]<br>
+> Need a practical Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/) or [3 Minutes to Flux](flux.md)
 
 ### Demo
 Try our [serverless demo](https://fluxpipe.fly.dev/) or launch your own instance to instantly fall in love with *flux*

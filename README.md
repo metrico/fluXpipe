@@ -5,7 +5,7 @@
 **FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*<br>
 Execute your Flux scripts locally, in serverless functions or anywhere else - _decoupled from the data and database._<br>
 
-_Fluxpipe runs at 141,622Km/h_ and is compatible with **InfluxDB 3.0 / IOx, ClickHouse, Grafana** and _beyond!_
+_Fluxpipe runs at 141,6Km/h_[*](https://en.wikipedia.org/wiki/DeLorean_time_machine#:~:text=Various%20proposals%20have%20been%20brought,speedometer%2C%20modified%20for%20the%20movie.) and is compatible with **InfluxDB 3.0 / IOx, ClickHouse, Grafana** and _beyond!_
 
 <br>
 

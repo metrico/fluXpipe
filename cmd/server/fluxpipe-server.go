@@ -2,56 +2,22 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"os"
-	"strings"
-	"time"
-
-	"github.com/InfluxCommunity/flux"
-	"github.com/InfluxCommunity/flux/csv"
-	_ "github.com/InfluxCommunity/flux/fluxinit/static"
-	"github.com/InfluxCommunity/flux/lang"
-	"github.com/InfluxCommunity/flux/memory"
-	"github.com/InfluxCommunity/flux/runtime"
-
-
-	_fluxhttp "github.com/InfluxCommunity/flux/dependencies/http"
-	"github.com/InfluxCommunity/flux/dependencies/secret"
-	"github.com/InfluxCommunity/flux/dependencies/url"
-
-	_ "embed"
+	"github.com/metrico/fluxpipe/service"
+	"github.com/metrico/fluxpipe/static"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 var APPNAME = "fluxpipe"
-
-//go:embed static/play.html
-var PLAY []byte
-
-//go:embed static/favicon.ico
-var FAVICON []byte
-
-func runQuery(ctx context.Context, script string) (flux.Query, error) {
-
-	program, err := lang.Compile(ctx, script, runtime.Default, time.Now())
-	if err != nil {
-		return nil, err
-	}
-
-	q, err := program.Start(ctx, memory.DefaultAllocator)
-	if err != nil {
-		return nil, err
-	}
-	return q, nil
-}
 
 func postQuery(c echo.Context) error {
 
@@ -82,7 +48,7 @@ func postQuery(c echo.Context) error {
 		} else {
 			q := json_map["query"]
 			query := fmt.Sprintf("%v", q)
-			res, err := exec(query)
+			res, err := service.RunE(c.Request().Context(), query)
 			if err != nil {
 				c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
 				c.Response().Header().Set("x-platform-error-code", "invalid")
@@ -93,8 +59,7 @@ func postQuery(c echo.Context) error {
 		}
 
 	} else {
-
-		res, err := exec(string(s))
+		res, err := service.RunE(c.Request().Context(), string(s))
 		if err != nil {
 			c.Response().Header().Set(echo.HeaderContentType, "application/json; charset=utf-8")
 			c.Response().Header().Set("x-platform-error-code", "invalid")
@@ -105,63 +70,6 @@ func postQuery(c echo.Context) error {
 	}
 }
 
-// NewCustomDependencies produces a Custom set of dependencies including EnvironmentSecretService.
-func NewCustomDependencies() flux.Deps {
-	validator := url.PassValidator{}
-	return flux.Deps{
-		Deps: flux.WrappedDeps{
-			HTTPClient: _fluxhttp.NewLimitedDefaultClient(validator),
-			// Default to having no filesystem, no secrets, and no url validation (always pass).
-			FilesystemService: nil,
-			SecretService:     secret.EnvironmentSecretService{},
-			URLValidator:      validator,
-		},
-	}
-}
-
-func exec(inputString string) (string, error) {
-
-	// CustomDeps produces a Custom set of dependencies including EnvironmentSecretService.
-	customValidator := url.PassValidator{}
-	customDeps := flux.Deps{
-		Deps: flux.WrappedDeps{
-			HTTPClient:        _fluxhttp.NewLimitedDefaultClient(customValidator),
-			FilesystemService: nil,
-			SecretService:     secret.EnvironmentSecretService{},
-			URLValidator:      customValidator,
-		},
-	}
-
-	// ctx := flux.NewDefaultDependencies().Inject(context.Background())
-	ctx := customDeps.Inject(context.Background())
-
-	q, err := runQuery(ctx, inputString)
-	if err != nil {
-		fmt.Println("unexpected error while creating query: %s", err)
-		return "",  err
-	}
-
-	results := flux.NewResultIteratorFromQuery(q)
-	defer results.Release()
-
-	buf := bytes.NewBuffer(nil)
-	encoder := csv.NewMultiResultEncoder(csv.DefaultEncoderConfig())
-
-	if _, err := encoder.Encode(buf, results); err != nil {
-		return "", err
-	}
-
-	q.Done()
-
-	if q.Err() != nil {
-		fmt.Println("unexpected error from query execution: %s", q.Err())
-		return "", q.Err()
-
-	} else {
-		return buf.String(), nil
-	}
-}
-
 func main() {
 
 	port := flag.String("port", "8086", "API port")
@@ -169,7 +77,7 @@ func main() {
 	cors := flag.Bool("cors", true, "API cors mode")
 	flag.Parse()
 
-	scanner := bufio.NewScanner((os.Stdin))
+	scanner := bufio.NewScanner(os.Stdin)
 	inputString := ""
 
 	if *stdin == true {
@@ -181,12 +89,12 @@ func main() {
 			fmt.Fprintln(os.Stderr, "reading standard input:", err)
 		}
 
-		buf, err := exec(inputString)
+		buf, err := service.RunE(context.Background(), inputString)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "we have some error: ", err)
 			return
 		}
-		
+
 		fmt.Println(strings.Replace(buf, "\r\n", "\n", -1))
 
 	} else {
@@ -204,10 +112,10 @@ func main() {
 		}
 
 		e.GET("/", func(c echo.Context) error {
-			return c.Blob(http.StatusOK, "text/html", PLAY)
+			return c.Blob(http.StatusOK, "text/html", static.PLAY)
 		})
 		e.GET("/favicon.ico", func(c echo.Context) error {
-			return c.Blob(http.StatusOK, "image/x-icon", FAVICON)
+			return c.Blob(http.StatusOK, "image/x-icon", static.FAVICON)
 		})
 
 		e.GET("/hello", func(c echo.Context) error {

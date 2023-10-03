@@ -2,11 +2,11 @@
 export PKG_CONFIG_PATH=$(pwd)
 
 echo "Building fluxpipe-server ..."
-go build -a -ldflags '-extldflags "-static -w -ldl"' -o fluxpipe-server fluxpipe-server.go
+go build -a -ldflags '-extldflags "-static -w -ldl"' -o fluxpipe-server ./cmd/server
 
 echo "Building fluxpipe-lambda ..."
-go build -a -ldflags '-extldflags "-static -w -ldl"' -o fluxpipe-lambda fluxpipe-lambda.go
+go build -a -ldflags '-extldflags "-static -w -ldl"' -o fluxpipe-lambda ./cmd/lambda
 
 echo "Building fluxpipe-lib ..."
-CGO_ENABLED=1 go build -buildmode=c-archive -o fluxpipelib.a fluxpipelib.go
+CGO_ENABLED=1 go build -buildmode=c-archive -o fluxpipelib.a ./cmd/lib
 # CGO_ENABLED=1 go build -buildmode=c-shared -o fluxpipelib.dylib fluxpipelib.go

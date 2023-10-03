@@ -78,11 +78,11 @@ sql.from(
 ![image](https://github.com/metrico/fluXpipe/assets/1423657/b6c2dcbe-079b-4329-9fee-a8601a8c853c)
 
 
-###### Flux
+###### Flux IOx
 You can query InfluxDB 3.0 IOx with Flux using the `iox.from` handler 
-```
-> import "contrib/qxip/iox"
- iox.from(
+```flux
+import "contrib/qxip/iox"
+iox.from(
      bucket: "test",
      host: "eu-central-1-1.aws.cloud2.influxdata.com:443",
      token: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -90,7 +90,7 @@ You can query InfluxDB 3.0 IOx with Flux using the `iox.from` handler
      columns: "time, level, sender",
      table: "logs",
      start: -100d,
- )
+)
 ```
 ```
                     _time:time            level:string           sender:string
@@ -100,11 +100,32 @@ You can query InfluxDB 3.0 IOx with Flux using the `iox.from` handler
 2023-08-31T00:00:00.091381374Z                    info                 logtest
 2023-08-31T00:00:00.091382470Z                    info                 logtest
 2023-08-31T00:00:00.091383354Z                    info                 logtest
-2023-08-31T00:00:00.091384514Z                    info                 logtest
-2023-08-31T00:00:00.091385496Z                    info                 logtest
-2023-08-31T00:00:00.091387718Z                    info                 logtest
-2023-08-31T00:00:00.091389187Z                    info                 logtest
-2023-08-31T00:00:00.091390136Z                    info                 logtest
+...
+```
+
+You write data back to InfluxDB 3.0 IOx using the `to` and ` wideTo` functions
+
+```flux
+import "contrib/qxip/iox"
+import "influxdata/influxdb"
+iox.from(
+     bucket: "qxip",
+     host: "eu-central-1-1.aws.cloud2.influxdata.com:443",
+     token: "",
+     limit: "10",
+     table: "machine_data",
+     start: -2d,
+ )
+ |> range(start: -2d)
+ |> aggregateWindow(every: 5s, fn: mean, column: "load", createEmpty: false)
+ |> set(key: "_measurement", value: "downsampled")
+ |> wideTo(
+     bucket: "qxip",
+     host: "https://eu-central-1-1.aws.cloud2.influxdata.com",
+     token: "",
+     orgID: "6a841c0c08328fb1"
+    )
+
 ```
 
 
@@ -151,15 +172,6 @@ curl -XPOST localhost:8086/api/v2/query -sS \
   -H 'Content-type:application/vnd.flux' \
   -d 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 3, fn: (n) => n)'
 ```
-```flux
-#datatype,string,long,dateTime:RFC3339,long
-#group,false,false,false,false
-#default,_result,,,
-,result,table,_time,_value
-,,0,2022-04-01T00:00:00Z,1
-,,0,2022-04-01T00:00:36Z,2
-,,0,2022-04-01T00:01:12Z,3
-```
 
 #### Secrets
 Flux builds using `EnvironmentSecretService` accessing system environment variables from flux scripts.
@@ -177,17 +189,6 @@ Fluxpipe can be used as a command-line tool and stdin pipeline processor
 ```bash
 echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' \
 | ./fluxpipe-server -stdin
-```
-```csv
-#datatype,string,long,dateTime:RFC3339,long
-#group,false,false,false,false
-#default,_result,,,
-,result,table,_time,_value
-,,0,2022-04-01T00:00:00Z,1
-,,0,2022-04-01T00:00:36Z,1
-,,0,2022-04-01T00:01:12Z,1
-,,0,2022-04-01T00:01:48Z,1
-,,0,2022-04-01T00:02:24Z,1
 ```
 ##### Parse CSV
 ```bash

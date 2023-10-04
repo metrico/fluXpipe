@@ -1,4 +1,4 @@
-name: Build-n-Release
+name: Test build
 
 on:
   pull_request:

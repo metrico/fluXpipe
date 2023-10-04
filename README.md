@@ -2,22 +2,24 @@
 
 [![Build-n-Release](https://github.com/metrico/fluXpipe/actions/workflows/go.yml/badge.svg)](https://github.com/metrico/fluXpipe/actions/workflows/go.yml)
 
-**FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*
+**FluxPipe** is an *experimental* stand-alone **Flux API** for *serverless workers* and *embedded datasources*<br>
+Execute your Flux scripts locally, in serverless functions or anywhere else - _decoupled from the data and database._<br>
 
-> [Flux](https://github.com/InfluxCommunity/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]
-
-Need a practical Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/) or [3 Minutes to Flux](flux.md)
+_Fluxpipe runs at 141,6Km/h_[*](https://en.wikipedia.org/wiki/DeLorean_time_machine#:~:text=Various%20proposals%20have%20been%20brought,speedometer%2C%20modified%20for%20the%20movie.) and is compatible with **InfluxDB 3.0 / IOx, ClickHouse, Grafana** and _beyond!_
 
 <br>
+
+> InfluxDB [Flux](https://github.com/InfluxCommunity/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]<br>
+> Need a practical Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/) or [3 Minutes to Flux](flux.md)
 
 ### Demo
 Try our [serverless demo](https://fluxpipe.fly.dev/) or launch your own instance to instantly fall in love with *flux*
 
-<br> 
-
 <a href="https://flyctl.sh/shell?repo=metrico/fluxpipe" target="_blank">
   <img src="https://user-images.githubusercontent.com/1423657/236479471-a1cb0484-dfd3-4dc2-8d62-121debd7faa3.png" width=300>
 </a>
+
+<br>
 
 ### Instructions
 Download a [binary release](https://github.com/metrico/fluxpipe/releases/), [docker](https://github.com/metrico/fluXpipe/pkgs/container/fluxpipe) or build from source
@@ -56,7 +58,77 @@ Fluxpipe embeds a playground interface to instantly execute queries _(borrowed f
 Fluxpipe serves a simple REST API loosely compatible with existing flux integrations and clients
 
 ##### Grafana Flux [^1]
-Usage with native **Grafana InfluxDB/Flux datasource** _(url + organization fields are required!)_
+Fluxpipe is compatible with the native **Grafana InfluxDB/Flux datasource** _(url + organization fields are required!)_
+
+<br>
+
+##### ⭐ FlightSQL
+###### SQL
+You can query InfluxDB 3.0 IOx with raw SQL using the native `sql.from` handler
+```
+import "sql"
+
+sql.from(
+    driverName: "influxdb-iox",
+    dataSourceName: "iox://iox-server:443/qryn_logs",
+    query: "SELECT level, sender, body FROM logs WHERE body LIKE '%DELETE%' limit 10",
+)
+```
+
+![image](https://github.com/metrico/fluXpipe/assets/1423657/b6c2dcbe-079b-4329-9fee-a8601a8c853c)
+
+
+###### Flux IOx
+You can query InfluxDB 3.0 IOx with Flux using the `iox.from` handler 
+```flux
+import "contrib/qxip/iox"
+iox.from(
+     bucket: "test",
+     host: "eu-central-1-1.aws.cloud2.influxdata.com:443",
+     token: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+     limit: "10",
+     columns: "time, level, sender",
+     table: "logs",
+     start: -100d,
+)
+```
+```
+                    _time:time            level:string           sender:string
+------------------------------  ----------------------  ----------------------
+2023-08-31T00:00:00.091362490Z                    info                 logtest
+2023-08-31T00:00:00.091380034Z                    info                 logtest
+2023-08-31T00:00:00.091381374Z                    info                 logtest
+2023-08-31T00:00:00.091382470Z                    info                 logtest
+2023-08-31T00:00:00.091383354Z                    info                 logtest
+...
+```
+
+You write data back to InfluxDB 3.0 IOx using the `to` and ` wideTo` functions
+
+```flux
+import "contrib/qxip/iox"
+import "influxdata/influxdb"
+iox.from(
+     bucket: "qxip",
+     host: "eu-central-1-1.aws.cloud2.influxdata.com:443",
+     token: "",
+     limit: "10",
+     table: "machine_data",
+     start: -2d,
+ )
+ |> range(start: -2d)
+ |> aggregateWindow(every: 5s, fn: mean, column: "load", createEmpty: false)
+ |> set(key: "_measurement", value: "downsampled")
+ |> wideTo(
+     bucket: "qxip",
+     host: "https://eu-central-1-1.aws.cloud2.influxdata.com",
+     token: "",
+     orgID: "6a841c0c08328fb1"
+    )
+
+```
+
+
 
 ###### ⭐ ClickHouse SQL
 ```
@@ -100,15 +172,6 @@ curl -XPOST localhost:8086/api/v2/query -sS \
   -H 'Content-type:application/vnd.flux' \
   -d 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 3, fn: (n) => n)'
 ```
-```flux
-#datatype,string,long,dateTime:RFC3339,long
-#group,false,false,false,false
-#default,_result,,,
-,result,table,_time,_value
-,,0,2022-04-01T00:00:00Z,1
-,,0,2022-04-01T00:00:36Z,2
-,,0,2022-04-01T00:01:12Z,3
-```
 
 #### Secrets
 Flux builds using `EnvironmentSecretService` accessing system environment variables from flux scripts.
@@ -127,17 +190,6 @@ Fluxpipe can be used as a command-line tool and stdin pipeline processor
 echo 'import g "generate" g.from(start: 2022-04-01T00:00:00Z, stop: 2022-04-01T00:03:00Z, count: 5, fn: (n) => 1)' \
 | ./fluxpipe-server -stdin
 ```
-```csv
-#datatype,string,long,dateTime:RFC3339,long
-#group,false,false,false,false
-#default,_result,,,
-,result,table,_time,_value
-,,0,2022-04-01T00:00:00Z,1
-,,0,2022-04-01T00:00:36Z,1
-,,0,2022-04-01T00:01:12Z,1
-,,0,2022-04-01T00:01:48Z,1
-,,0,2022-04-01T00:02:24Z,1
-```
 ##### Parse CSV
 ```bash
 cat scripts/csv.flux | ./fluxpipe-server -stdin
@@ -153,7 +205,15 @@ cat scripts/sql.flux | ./fluxpipe-server -stdin
 
 ### Grafana Datasource
 Configure your Grafana instance with our public demo endpoint _(limited resources)_
-![image](https://user-images.githubusercontent.com/1423657/185748494-0c6a95da-d112-46ab-b9db-b09438b63740.png)
+![image](https://github.com/metrico/fluXpipe/assets/1423657/c100050a-49a6-4788-86af-15eb7e59c5d1)
+
+
+
+### Documentation
+**Flux**(pipe) is built using the [InfluxCommunity/flux](https://github.com/InfluxCommunity/flux) fork which contains additional features and contributions.<br>
+All the standard and additional functions available in Fluxpipe are included in the [Flux community documentation](https://metrico.github.io/fluXpipe/)
+
+<br>
 
 
 #### Status

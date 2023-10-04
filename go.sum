@@ -73,8 +73,8 @@ github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym
 github.com/DATA-DOG/go-sqlmock v1.4.1 h1:ThlnYciV1iM/V0OSF/dtkqWb6xo5qITT1TJBG1MRDJM=
 github.com/DATA-DOG/go-sqlmock v1.4.1/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 github.com/HdrHistogram/hdrhistogram-go v1.1.0 h1:6dpdDPTRoo78HxAJ6T1HfMiKSnqhgRRqzCuPshRkQ7I=
-github.com/InfluxCommunity/flux v0.195.0 h1:EP92JLQeEoFG2cY8nqQONFw8xpCx98hbn/9/s4LZikU=
-github.com/InfluxCommunity/flux v0.195.0/go.mod h1:Nb5if8KAOAw0sUrvJrs0gNyScvjL1RLDnapW+XNL71M=
+github.com/InfluxCommunity/flux v0.195.1 h1:4L0d1HCd8v7780WZEpCZ9pPB271TORjH7+5j2qEDbOU=
+github.com/InfluxCommunity/flux v0.195.1/go.mod h1:Nb5if8KAOAw0sUrvJrs0gNyScvjL1RLDnapW+XNL71M=
 github.com/JohnCGriffin/overflow v0.0.0-20211019200055-46fa312c352c h1:RGWPOewvKIROun94nF7v2cua9qP+thov/7M50KEoeSU=
 github.com/JohnCGriffin/overflow v0.0.0-20211019200055-46fa312c352c/go.mod h1:X0CRv0ky0k6m906ixxpzmDRLvX58TFUKS2eePweuyxk=
 github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible/go.mod h1:r7JcOSlj0wfOMncg0iLm8Leh48TZaKVeNIfJntJ2wa0=

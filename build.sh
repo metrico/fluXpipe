@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# WARNING: 
+# Make sure you have a complete flux build at `/usr/src/flux`
+
 export PKG_CONFIG_PATH=$(pwd)
 export PKG_CONFIG=`pwd`/pkg-config-static.sh
 

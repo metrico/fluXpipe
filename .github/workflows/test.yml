@@ -1,0 +1,14 @@
+name: Build-n-Release
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Fluxpipe
+        run: docker build --target export -t test . -f Dockerfile_musl --output out

@@ -10,7 +10,7 @@ _Fluxpipe runs at 141,6Km/h_[*](https://en.wikipedia.org/wiki/DeLorean_time_mach
 <br>
 
 > InfluxDB [Flux](https://github.com/InfluxCommunity/flux) is a lightweight *scripting language* for querying databases and working with data. [^1]<br>
-> Need a practical Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/) or [3 Minutes to Flux](flux.md)
+> Need a Flux introduction? Check out the [official page](https://www.influxdata.com/products/flux/), [documentation](https://metrico.github.io/fluXpipe/) or ["3 Minutes to Flux"](flux.md) guide.
 
 ### Demo
 Try our [serverless demo](https://fluxpipe.fly.dev/) or launch your own instance to instantly fall in love with *flux*

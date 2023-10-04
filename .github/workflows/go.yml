@@ -15,59 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Rust
-      uses: actions-rs/toolchain@v1.0.6
-      with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.18
-        
-    - name: Cache Flux Build
-      id: cacheflux
-      uses: actions/cache@v3.0.11
-      with:
-        path: |
-          flux
-          ~/.cache/go-build
-          ~/go/pkg/mod
-        key: ${{ runner.os }}-fluxpipe-${{ hashFiles('**/fluxpipe-server.go') }}
-          
-    - name: Cache Status
-      run: |
-        echo ${{steps.cacheflux.outputs.cache-hit}}
-      
-    - name: Get Flux
-      if: steps.cacheflux.outputs.cache-hit != 'true'
-      uses: GuillaumeFalourd/clone-github-repo-action@v2
-      with:
-        owner: 'InfluxCommunity'
-        repository: 'flux'
-        
-    - name: Compile Flux
-      if: steps.cacheflux.outputs.cache-hit != 'true'
-      run: |
-        cd flux
-        git checkout tags/v0.194.3
-        go mod tidy
-        go get ./...
-        make
-        
     - name: Build Fluxpipe
-      run: |
-        sed -i 's:/usr/src:'`pwd`':' flux.pc
-        ./build.sh
+      run: docker build --target export -t test . -f Dockerfile_musl --output out
         
-    - name: Compress Fluxpipe
-      run: |
-        strip fluxpipe-server
-        strip fluxpipe-lambda
-        strip fluxpipelib.a
-        upx fluxpipe-server
-        
+
     - name: Get Timestamp
       if: github.event_name != 'pull_request'
       id: time
@@ -87,9 +38,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         release_config: |
-            fluxpipe-server
-            fluxpipe-lambda
-            fluxpipelib.a
+            out/fluxpipe-server
+            out/fluxpipe-lambda
+            out/fluxpipelib.a
         tag_name: ${{ env.VERSION }}
         release_name: fluxpipe_${{ env.VERSION }}
         draft: false

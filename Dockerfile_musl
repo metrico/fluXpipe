@@ -1,0 +1,30 @@
+FROM rust:1.70-alpine as RUSTBUILD
+
+FROM golang:1.19-alpine as BUILDER
+
+# Install rust and rust tooling
+COPY --from=RUSTBUILD /usr/local/cargo /usr/local/cargo
+COPY --from=RUSTBUILD /usr/local/rustup /usr/local/rustup
+
+RUN apk add pkgconfig musl-dev gcc upx
+
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/go/bin:/usr/local/cargo/bin:/usr/local/bin:/usr/local/ragel7/bin:$PATH
+
+
+RUN go install github.com/influxdata/pkg-config@latest
+
+COPY . /src
+
+RUN cd /src && sh build.sh &&  \
+    strip fluxpipe-server &&  \
+    strip fluxpipe-lambda &&  \
+    strip fluxpipelib.a &&  \
+    upx fluxpipe-server
+
+FROM scratch as export
+
+COPY --from=BUILDER /src/fluxpipe-server /fluxpipe-server
+COPY --from=BUILDER /src/fluxpipe-lambda /fluxpipe-lambda
+COPY --from=BUILDER /src/fluxpipelib.a /fluxpipelib.a

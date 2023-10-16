@@ -4,6 +4,7 @@
 # Make sure you have a complete flux build at `/usr/src/flux`
 
 export PKG_CONFIG_PATH=$(pwd)
+export PKG_CONFIG=`pwd`/pkg-config-static.sh
 
 echo "Building fluxpipe-server ..."
 go build -a -ldflags '-extldflags "-static -w -ldl"' -o fluxpipe-server ./cmd/server

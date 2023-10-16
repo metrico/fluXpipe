@@ -1,0 +1,13 @@
+name: Test build
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Fluxpipe
+        run: docker build --target export -t test . -f Dockerfile_musl --output out
